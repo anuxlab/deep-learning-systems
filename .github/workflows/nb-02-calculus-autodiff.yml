@@ -1,0 +1,27 @@
+name: "NB 02 · Calculus, Multivariable Calculus and Automatic Differentiation"
+
+# Manually triggered: Actions tab -> this workflow -> "Run workflow".
+# Executes notebooks/02-calculus-autodiff/02_calculus_autodiff.ipynb
+# on a free GitHub runner, records every output and log, and commits them back into the notebook folder.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_results:
+        description: "Commit executed notebook, HTML, log and figures back to the repo"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nb-02
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: ./.github/workflows/_run-notebook.yml
+    with:
+      notebook: notebooks/02-calculus-autodiff/02_calculus_autodiff.ipynb
+      commit_results: ${{ inputs.commit_results }}
+      timeout_minutes: 30

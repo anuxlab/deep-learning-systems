@@ -1,0 +1,27 @@
+name: "NB 07 · Feedforward Neural Networks and Backpropagation"
+
+# Manually triggered: Actions tab -> this workflow -> "Run workflow".
+# Executes notebooks/07-mlp-backprop/07_mlp_backprop.ipynb
+# on a free GitHub runner, records every output and log, and commits them back into the notebook folder.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_results:
+        description: "Commit executed notebook, HTML, log and figures back to the repo"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nb-07
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: ./.github/workflows/_run-notebook.yml
+    with:
+      notebook: notebooks/07-mlp-backprop/07_mlp_backprop.ipynb
+      commit_results: ${{ inputs.commit_results }}
+      timeout_minutes: 30

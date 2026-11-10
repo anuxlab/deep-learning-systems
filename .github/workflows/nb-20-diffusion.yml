@@ -1,0 +1,27 @@
+name: "NB 20 · Diffusion Models and Score-Based Generation"
+
+# Manually triggered: Actions tab -> this workflow -> "Run workflow".
+# Executes notebooks/20-diffusion/20_diffusion.ipynb
+# on a free GitHub runner, records every output and log, and commits them back into the notebook folder.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_results:
+        description: "Commit executed notebook, HTML, log and figures back to the repo"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nb-20
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: ./.github/workflows/_run-notebook.yml
+    with:
+      notebook: notebooks/20-diffusion/20_diffusion.ipynb
+      commit_results: ${{ inputs.commit_results }}
+      timeout_minutes: 30

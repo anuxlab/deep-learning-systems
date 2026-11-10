@@ -1,0 +1,27 @@
+name: "NB 12 · Recurrent Neural Networks, LSTM and GRU"
+
+# Manually triggered: Actions tab -> this workflow -> "Run workflow".
+# Executes notebooks/12-rnn-lstm-gru/12_rnn_lstm_gru.ipynb
+# on a free GitHub runner, records every output and log, and commits them back into the notebook folder.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_results:
+        description: "Commit executed notebook, HTML, log and figures back to the repo"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nb-12
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: ./.github/workflows/_run-notebook.yml
+    with:
+      notebook: notebooks/12-rnn-lstm-gru/12_rnn_lstm_gru.ipynb
+      commit_results: ${{ inputs.commit_results }}
+      timeout_minutes: 45

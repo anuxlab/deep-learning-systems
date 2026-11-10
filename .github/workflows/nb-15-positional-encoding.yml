@@ -1,0 +1,27 @@
+name: "NB 15 · Positional Encoding and Modern Attention Variants"
+
+# Manually triggered: Actions tab -> this workflow -> "Run workflow".
+# Executes notebooks/15-positional-encoding/15_positional_encoding.ipynb
+# on a free GitHub runner, records every output and log, and commits them back into the notebook folder.
+on:
+  workflow_dispatch:
+    inputs:
+      commit_results:
+        description: "Commit executed notebook, HTML, log and figures back to the repo"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nb-15
+  cancel-in-progress: false
+
+jobs:
+  run:
+    uses: ./.github/workflows/_run-notebook.yml
+    with:
+      notebook: notebooks/15-positional-encoding/15_positional_encoding.ipynb
+      commit_results: ${{ inputs.commit_results }}
+      timeout_minutes: 30
