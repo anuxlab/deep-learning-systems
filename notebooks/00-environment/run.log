@@ -1,0 +1,84 @@
+12:48:37 | === running 00_environment.ipynb ===
+12:48:37 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/00-environment
+12:48:38 | [cell 03/13] START  import sys
+12:48:40 | [cell 03/13] DONE in 2.33s
+12:48:40 |     stdout | 12:48:39 | INFO | seed set to 42
+12:48:40 |     stdout |           python: 3.12.16
+12:48:40 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+12:48:40 |     stdout |        cpu_count: 4
+12:48:40 |     stdout |           ram_gb: 15.6
+12:48:40 |     stdout |            numpy: 2.5.4
+12:48:40 |     stdout |            scipy: 1.18.1
+12:48:40 |     stdout |          sklearn: 1.9.1
+12:48:40 |     stdout |       matplotlib: 3.11.2
+12:48:40 |     stdout |            torch: 2.15.0+cpu
+12:48:40 |     stdout |   cuda_available: False
+12:48:40 |     stdout |   github_actions: True
+12:48:40 |     stdout |           run_id: 42818770537
+12:48:40 |     stdout |           commit: 61c9ecbc3039f19fc5c99df211fed2184186b3ae
+12:48:40 | [cell 05/13] START  def draw(seed):
+12:48:40 | [cell 05/13] DONE in 0.01s
+12:48:40 |     stdout | 12:48:40 | INFO | seed set to 0
+12:48:40 |     stdout | 12:48:40 | INFO | seed set to 0
+12:48:40 |     stdout | 12:48:40 | INFO | seed set to 1
+12:48:40 |     stdout | numpy  run1: [1.76405235 0.40015721 0.97873798]
+12:48:40 |     stdout | numpy  run2: [1.76405235 0.40015721 0.97873798]
+12:48:40 |     stdout | torch  run1: [ 1.5409961 -0.2934289 -2.1787894]
+12:48:40 |     stdout | torch  run2: [ 1.5409961 -0.2934289 -2.1787894]
+12:48:40 |     stdout |   ✅ same seed -> identical NumPy and PyTorch draws
+12:48:40 |     stdout |   ✅ different seed -> different draws
+12:48:40 | [cell 07/13] START  import time
+12:48:41 | [cell 07/13] DONE in 1.21s
+12:48:41 |     stdout | n=   64  numpy    49.5 GFLOP/s   torch     0.5 GFLOP/s
+12:48:41 |     stdout | n=  128  numpy     1.4 GFLOP/s   torch     0.3 GFLOP/s
+12:48:41 |     stdout | n=  256  numpy    16.3 GFLOP/s   torch     1.8 GFLOP/s
+12:48:41 |     stdout | n=  512  numpy   202.4 GFLOP/s   torch    25.4 GFLOP/s
+12:48:41 |     stdout | n= 1024  numpy   212.2 GFLOP/s   torch    94.2 GFLOP/s
+12:48:41 |     stdout | n= 1536  numpy   219.3 GFLOP/s   torch   141.2 GFLOP/s
+12:48:41 |     stdout | 12:48:41 | INFO | figure saved -> figures/matmul_throughput.png
+12:48:41 |     [figure rendered]
+12:48:41 |     stdout |   ✅ matmul benchmark produced a sane throughput
+12:48:41 | [cell 09/13] START  def adam_train_bytes(P): return 16 * P
+12:48:41 | [cell 09/13] DONE in 0.00s
+12:48:41 |     stdout | tiny MLP (50k)         params=      50,000  Adam training state ≈     0.001 GiB
+12:48:41 |     stdout | small CNN (1M)         params=   1,000,000  Adam training state ≈     0.015 GiB
+12:48:41 |     stdout | tiny GPT (10M)         params=  10,000,000  Adam training state ≈     0.149 GiB
+12:48:41 |     stdout | GPT-2 small (124M)     params= 124,000,000  Adam training state ≈     1.848 GiB
+12:48:41 |     stdout | 7B LLM                 params=7,000,000,000  Adam training state ≈   104.308 GiB
+12:48:41 |     stdout |   ✅ GPT-2-small weights+Adam state fit in a 16 GB runner (activations aside)
+12:48:41 |     stdout |   ✅ a 7B model does NOT fit -> why we use tiny models in CI
+12:48:41 | [cell 11/13] START  import pandas as pd
+12:48:41 | [cell 11/13] DONE in 0.01s
+12:48:41 |     stdout | notebook                              topic   part
+12:48:41 |     stdout |       00      Environment & reproducibility      —
+12:48:41 |     stdout |       01           Linear algebra & tensors Part 1
+12:48:41 |     stdout |       02                Calculus & autodiff Part 1
+12:48:41 |     stdout |       03   Probability & information theory Part 1
+12:48:41 |     stdout |       04              Neurons & perceptrons Part 2
+12:48:41 |     stdout |       05         Activations & expressivity Part 2
+12:48:41 |     stdout |       06          Losses & gradient descent Part 2
+12:48:41 |     stdout |       07             MLPs & backpropagation Part 2
+12:48:41 |     stdout |       08     Optimisation & loss landscapes Part 3
+12:48:41 |     stdout |       09     Initialisation & normalisation Part 3
+12:48:41 |     stdout |       10    Regularisation & generalisation Part 3
+12:48:41 |     stdout |       11             Convolutional networks Part 4
+12:48:41 |     stdout |       12                     RNN, LSTM, GRU Part 4
+12:48:41 |     stdout |       13                Seq2seq & attention Part 4
+12:48:41 |     stdout |       14                       Transformers Part 4
+12:48:41 |     stdout |       15                Positional encoding Part 4
+12:48:41 |     stdout |       16                       Autoencoders Part 5
+12:48:41 |     stdout |       17      Self-supervised & contrastive Part 5
+12:48:41 |     stdout |       18                               VAEs Part 5
+12:48:41 |     stdout |       19                               GANs Part 5
+12:48:41 |     stdout |       20                   Diffusion models Part 5
+12:48:41 |     stdout |       21              Graph neural networks Part 6
+12:48:41 |     stdout |       22       Transfer & foundation models Part 6
+12:48:41 |     stdout |       23                  LLMs & multimodal Part 6
+12:48:41 |     stdout |       24 Evaluation, robustness, efficiency Part 6
+12:48:41 |     stdout |   ✅ 25 notebooks: environment + 24 wiki modules
+12:48:41 | [cell 12/13] START  save_metrics("00", METRICS)
+12:48:41 | [cell 12/13] DONE in 0.00s
+12:48:41 |     stdout | 12:48:41 | INFO | metrics saved -> metrics.json
+12:48:41 |     stdout | 12:48:41 | INFO | notebook 00 finished OK
+12:48:43 | wrote 00_environment.html
+12:48:43 | === SUCCESS in 5.4s ===
