@@ -1,0 +1,73 @@
+18:16:11 | === running 17_contrastive_learning.ipynb ===
+18:16:11 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/17-contrastive-learning
+18:16:11 | [cell 03/17] START  import sys
+18:16:18 | [cell 03/17] DONE in 6.47s
+18:16:18 |     stdout | 18:16:17 | INFO | seed set to 42
+18:16:18 |     stdout |           python: 3.12.16
+18:16:18 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:16:18 |     stdout |        cpu_count: 4
+18:16:18 |     stdout |           ram_gb: 15.6
+18:16:18 |     stdout |            numpy: 2.5.5
+18:16:18 |     stdout |            scipy: 1.18.1
+18:16:18 |     stdout |          sklearn: 1.9.1
+18:16:18 |     stdout |       matplotlib: 3.11.2
+18:16:18 |     stdout |            torch: 2.15.0+cpu
+18:16:18 |     stdout |   cuda_available: False
+18:16:18 |     stdout |   github_actions: True
+18:16:18 |     stdout |           run_id: 43926820507
+18:16:18 |     stdout |           commit: a4aa24e57dfd9f88471149adff810366178f90be
+18:16:18 | [cell 05/17] START  a, p, n = torch.randn(6, 8), torch.randn(6, 8), torch.randn(6, 8); m = 1.0
+18:16:18 | [cell 05/17] DONE in 0.01s
+18:16:18 |     stdout |   ✅ triplet loss (squared-distance form) matches torch
+18:16:18 | [cell 07/17] START  def nt_xent(z1, z2, tau=.5):
+18:16:18 | [cell 07/17] DONE in 0.01s
+18:16:18 |     stdout |   ✅ NT-Xent == explicit -log(softmax) formula
+18:16:18 |     stdout |   ✅ aligned positive pairs give a lower loss than random pairs
+18:16:18 |     stdout |   ✅ for unrelated embeddings the loss is near log(2N-1) = log 15
+18:16:18 | [cell 09/17] START  from sklearn.datasets import load_digits
+18:16:25 | [cell 09/17] DONE in 7.34s
+18:16:25 |     stdout | 18:16:18 | INFO | figure saved -> figures/augmentations.png
+18:16:25 |     [figure rendered]
+18:16:25 |     stdout | random (untrained) encoder   5-NN 0.960   linear probe 0.964   probe on AUGMENTED test 0.394
+18:16:25 |     stdout | raw pixels                   5-NN 0.982
+18:16:25 |     stdout | 18:16:24 | INFO | simclr_training took 5.32s
+18:16:25 |     stdout | SimCLR-trained encoder       5-NN 0.956   linear probe 0.960   probe on AUGMENTED test 0.654
+18:16:25 |     stdout | 18:16:25 | INFO | figure saved -> figures/simclr_loss.png
+18:16:25 |     [figure rendered]
+18:16:25 |     stdout |   ✅ contrastive loss decreases
+18:16:25 |     stdout | NOTE: on tiny 8×8 digits even a random conv encoder is a strong clean-data baseline; the benefit of contrastive pre-training shows up in INVARIANCE:
+18:16:25 |     stdout |   ✅ SimCLR features are more robust to augmentation than random features (0.654 vs 0.394)
+18:16:25 | [cell 11/17] START  res = {}
+18:16:34 | [cell 11/17] DONE in 8.69s
+18:16:34 |     stdout | tau=0.1                      5-NN 0.960   linear probe 0.972   probe on AUGMENTED test 0.732
+18:16:34 |     stdout | tau=0.5                      5-NN 0.938   linear probe 0.968   probe on AUGMENTED test 0.650
+18:16:34 |     stdout | tau=2.0                      5-NN 0.915   linear probe 0.962   probe on AUGMENTED test 0.586
+18:16:34 |     stdout | 18:16:34 | INFO | temperature_sweep took 8.50s
+18:16:34 |     stdout | 18:16:34 | INFO | figure saved -> figures/temperature_sweep.png
+18:16:34 |     [figure rendered]
+18:16:34 |     stdout |   ✅ at least one temperature gives a strong linear probe
+18:16:34 | [cell 13/17] START  def align_only(enc, xb, tau): z1, z2 = F.normalize(enc(augment(xb)), dim=1), F.normalize(e
+18:16:42 | [cell 13/17] DONE in 7.60s
+18:16:42 |     stdout | alignment only               5-NN 0.901   linear probe 0.911   probe on AUGMENTED test 0.378
+18:16:42 |     stdout |    -> mean per-dim std of embeddings: 0.0000
+18:16:42 |     stdout | VICReg (variance+cov)        5-NN 0.839   linear probe 0.926   probe on AUGMENTED test 0.577
+18:16:42 |     stdout |    -> mean per-dim std of embeddings: 0.7982
+18:16:42 |     stdout | 18:16:42 | INFO | collapse_experiment took 7.58s
+18:16:42 |     stdout |   ✅ without negatives/variance term the embedding collapses (std ≈ 0)
+18:16:42 |     stdout | (The backbone features f(x) still retain some information because collapse happens at the *projection* output z — which is why SimCLR-family methods discard the head — but z itself carries no usable signal.)
+18:16:42 |     stdout |   ✅ with the variance term every embedding dimension keeps unit-scale spread
+18:16:42 | [cell 15/17] START  # --- MoCo mechanics ---
+18:16:45 | [cell 15/17] DONE in 3.40s
+18:16:45 |     stdout | MoCo loss 1.262 -> 5.263  (it may rise at first: the queue fills with real, harder negatives)
+18:16:45 |     stdout |   ✅ MoCo loss stays finite
+18:16:45 |     stdout |   ✅ momentum encoder lags the query encoder (not identical)
+18:16:45 |     stdout | MoCo encoder                 5-NN 0.640   linear probe 0.833   probe on AUGMENTED test 0.398
+18:16:45 |     stdout |   ✅ MoCo representation supports a >80% linear probe
+18:16:45 |     stdout |   ✅ CLIP loss is lower when paired embeddings match
+18:16:45 |     stdout |   ✅ at τ=1 random pairs give CLIP loss ≈ log N (chance level)
+18:16:45 | [cell 16/17] START  save_metrics("17", METRICS)
+18:16:45 | [cell 16/17] DONE in 0.01s
+18:16:45 |     stdout | 18:16:45 | INFO | metrics saved -> metrics.json
+18:16:45 |     stdout | 18:16:45 | INFO | notebook 17 finished OK
+18:16:47 | wrote 17_contrastive_learning.html
+18:16:47 | === SUCCESS in 36.4s ===
