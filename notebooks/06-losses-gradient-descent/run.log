@@ -1,0 +1,79 @@
+16:07:57 | === running 06_losses_gradient_descent.ipynb ===
+16:07:57 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/06-losses-gradient-descent
+16:07:57 | [cell 03/19] START  import sys
+16:07:59 | [cell 03/19] DONE in 1.99s
+16:07:59 |     stdout | 16:07:59 | INFO | seed set to 42
+16:07:59 |     stdout |           python: 3.12.16
+16:07:59 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:07:59 |     stdout |        cpu_count: 4
+16:07:59 |     stdout |           ram_gb: 15.6
+16:07:59 |     stdout |            numpy: 2.5.5
+16:07:59 |     stdout |            scipy: 1.18.1
+16:07:59 |     stdout |          sklearn: 1.9.1
+16:07:59 |     stdout |       matplotlib: 3.11.2
+16:07:59 |     stdout |            torch: 2.15.0+cpu
+16:07:59 |     stdout |   cuda_available: False
+16:07:59 |     stdout |   github_actions: True
+16:07:59 |     stdout |           run_id: 43903917034
+16:07:59 |     stdout |           commit: 09bf194ed28a6c06b3d2fb3a29d1455826cd2e0d
+16:07:59 | [cell 05/19] START  m = np.linspace(-3, 3, 601)
+16:08:00 | [cell 05/19] DONE in 0.16s
+16:08:00 |     stdout |   ✅ hinge upper-bounds the 0–1 loss
+16:08:00 |     stdout |   ✅ logistic/ln2 upper-bounds the 0–1 loss
+16:08:00 |     stdout |   ✅ exponential upper-bounds the 0–1 loss
+16:08:00 |     stdout | 16:08:00 | INFO | figure saved -> figures/surrogate_losses.png
+16:08:00 |     [figure rendered]
+16:08:00 | [cell 07/19] START  rng = np.random.default_rng(0); n = 100
+16:08:00 | [cell 07/19] DONE in 0.19s
+16:08:00 |     stdout | mse    slope=1.580 intercept=0.873   (truth 2, 1)
+16:08:00 |     stdout | mae    slope=1.977 intercept=1.005   (truth 2, 1)
+16:08:00 |     stdout | huber  slope=1.967 intercept=0.985   (truth 2, 1)
+16:08:00 |     stdout |   ✅ robust losses are less affected by outliers than MSE
+16:08:00 |     stdout | 16:08:00 | INFO | figure saved -> figures/robust_regression.png
+16:08:00 |     [figure rendered]
+16:08:00 | [cell 09/19] START  def softmax(z): z = z - z.max(); e = np.exp(z); return e / e.sum()
+16:08:00 | [cell 09/19] DONE in 0.00s
+16:08:00 |     stdout |   ✅ ∂CE/∂z = softmax(z) − onehot
+16:08:00 |     stdout |   ✅ ∂BCE/∂z = σ(z) − y
+16:08:00 | [cell 11/19] START  from sklearn.datasets import make_classification
+16:08:00 | [cell 11/19] DONE in 0.46s
+16:08:00 |     stdout | batch (n=1000)   final loss 0.5401
+16:08:00 |     stdout | mini-batch (32)  final loss 0.5350
+16:08:00 |     stdout | SGD (1)          final loss 0.5349
+16:08:00 |     stdout | sklearn (≈ unregularised) optimum loss: 0.5346
+16:08:00 |     stdout |   ✅ all three variants reach (almost) the optimum
+16:08:00 |     stdout | 16:08:00 | INFO | figure saved -> figures/gd_variants.png
+16:08:00 |     [figure rendered]
+16:08:00 |     stdout |   ✅ logistic-regression gradient passes the finite-difference check
+16:08:00 | [cell 13/19] START  L = 4.0; etas = np.array([.05, .25, .5, .6, .7])
+16:08:01 | [cell 13/19] DONE in 0.36s
+16:08:01 |     stdout |   ✅ η=0.05: behaviour matches the 2/L=0.5 threshold
+16:08:01 |     stdout |   ✅ η=0.25: behaviour matches the 2/L=0.5 threshold
+16:08:01 |     stdout |   ✅ η=0.6: behaviour matches the 2/L=0.5 threshold
+16:08:01 |     stdout |   ✅ η=0.7: behaviour matches the 2/L=0.5 threshold
+16:08:01 |     stdout | 16:08:01 | INFO | figure saved -> figures/learning_rate_threshold.png
+16:08:01 |     [figure rendered]
+16:08:01 |     stdout |   ✅ η=1/L converges in ONE step on a 1-D quadratic
+16:08:01 | [cell 15/19] START  r = np.random.default_rng(3); n = 500
+16:08:03 | [cell 15/19] DONE in 1.91s
+16:08:03 |     stdout | raw features: κ=318,040  iterations to converge=200,000
+16:08:03 |     stdout | standardised: κ=1.2  iterations to converge=7
+16:08:03 |     stdout |   ✅ standardisation slashes the condition number and iteration count
+16:08:03 | [cell 17/19] START  f_true = lambda x: np.sin(2 * np.pi * x)
+16:08:03 | [cell 17/19] DONE in 0.21s
+16:08:03 |     stdout | 16:08:03 | INFO | figure saved -> figures/erm_gap.png
+16:08:03 |     [figure rendered]
+16:08:03 |     stdout | [[1.2000000e-02 8.5818668e+04]
+16:08:03 |     stdout |  [4.1000000e-02 2.1589000e+01]
+16:08:03 |     stdout |  [6.2000000e-02 2.4500000e-01]
+16:08:03 |     stdout |  [7.6000000e-02 1.2900000e-01]
+16:08:03 |     stdout |  [8.5000000e-02 9.6000000e-02]
+16:08:03 |     stdout |  [8.7000000e-02 9.2000000e-02]]
+16:08:03 |     stdout |   ✅ train–test gap shrinks with more data
+16:08:03 |     stdout |   ✅ training risk is optimistic (≤ test risk)
+16:08:03 | [cell 18/19] START  save_metrics("06", METRICS)
+16:08:03 | [cell 18/19] DONE in 0.00s
+16:08:03 |     stdout | 16:08:03 | INFO | metrics saved -> metrics.json
+16:08:03 |     stdout | 16:08:03 | INFO | notebook 06 finished OK
+16:08:04 | wrote 06_losses_gradient_descent.html
+16:08:04 | === SUCCESS in 7.0s ===
