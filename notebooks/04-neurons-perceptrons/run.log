@@ -1,0 +1,64 @@
+16:01:02 | === running 04_neurons_perceptrons.ipynb ===
+16:01:02 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/04-neurons-perceptrons
+16:01:04 | [cell 03/17] START  import sys
+16:01:07 | [cell 03/17] DONE in 2.99s
+16:01:07 |     stdout | 16:01:05 | INFO | seed set to 42
+16:01:07 |     stdout |           python: 3.12.16
+16:01:07 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:01:07 |     stdout |        cpu_count: 4
+16:01:07 |     stdout |           ram_gb: 15.6
+16:01:07 |     stdout |            numpy: 2.5.5
+16:01:07 |     stdout |            scipy: 1.18.1
+16:01:07 |     stdout |          sklearn: 1.9.1
+16:01:07 |     stdout |       matplotlib: 3.11.2
+16:01:07 |     stdout |            torch: 2.15.0+cpu
+16:01:07 |     stdout |   cuda_available: False
+16:01:07 |     stdout |   github_actions: True
+16:01:07 |     stdout |           run_id: 43902553858
+16:01:07 |     stdout |           commit: b6b1264fa699bf9de0cf3c7dabc0f33416a9092d
+16:01:07 | [cell 05/17] START  import itertools
+16:01:07 | [cell 05/17] DONE in 0.01s
+16:01:07 |     stdout | AND     w=[1, 1] θ=2 -> [0, 0, 0, 1]
+16:01:07 |     stdout |   ✅ MP neuron implements AND
+16:01:07 |     stdout | OR      w=[1, 1] θ=1 -> [0, 1, 1, 1]
+16:01:07 |     stdout |   ✅ MP neuron implements OR
+16:01:07 |     stdout | NOT x1  w=[-1, 0] θ=0 -> [1, 1, 0, 0]
+16:01:07 |     stdout |   ✅ MP neuron implements NOT x1
+16:01:07 |     stdout | NAND    w=[-1, -1] θ=-1 -> [1, 1, 1, 0]
+16:01:07 |     stdout |   ✅ MP neuron implements NAND
+16:01:07 | [cell 07/17] START  xx, yy = np.meshgrid(np.linspace(-.5, 1.5, 200), np.linspace(-.5, 1.5, 200))
+16:01:07 | [cell 07/17] DONE in 0.28s
+16:01:07 |     stdout | 16:01:07 | INFO | figure saved -> figures/and_gate_boundary.png
+16:01:07 |     [figure rendered]
+16:01:07 | [cell 09/17] START  def make_blobs(n=300, gap=0.3, seed=0):
+16:01:07 | [cell 09/17] DONE in 0.44s
+16:01:07 |     stdout | converged in 2 epochs, total mistakes = 6, accuracy = 1.000
+16:01:07 |     stdout |   ✅ perceptron separates the training data perfectly
+16:01:07 |     stdout | R=15.64  γ=0.303  bound (R/γ)² = 2659.9  >= actual mistakes 6
+16:01:07 |     stdout |   ✅ mistake count respects the Novikoff bound (γ measured from the learned separator)
+16:01:07 |     stdout | 16:01:07 | INFO | figure saved -> figures/perceptron_training.png
+16:01:07 |     [figure rendered]
+16:01:07 | [cell 11/17] START  gaps = [1.0, 0.5, 0.25, 0.12, 0.06]; res = []
+16:01:07 | [cell 11/17] DONE in 0.02s
+16:01:07 |     stdout | gap=1.0: mistakes=   10 converged=True
+16:01:07 |     stdout | gap=0.5: mistakes=   11 converged=True
+16:01:07 |     stdout | gap=0.25: mistakes=   15 converged=True
+16:01:07 |     stdout | gap=0.12: mistakes=   53 converged=True
+16:01:07 |     stdout | gap=0.06: mistakes=   51 converged=True
+16:01:07 |     stdout |   ✅ narrower margin -> more mistakes (or no separation)
+16:01:07 | [cell 13/17] START  XOR_in = np.array(inputs); XOR_y = np.array([a ^ b for a, b in inputs])
+16:01:09 | [cell 13/17] DONE in 2.19s
+16:01:09 |     stdout | best accuracy over 226,981 single-neuron configurations: 3/4 ; perfect solutions: 0
+16:01:09 |     stdout |   ✅ no single neuron computes XOR (best possible is 3/4)
+16:01:09 | [cell 15/17] START  def xor_net(x):
+16:01:10 | [cell 15/17] DONE in 0.27s
+16:01:10 |     stdout | XOR net outputs: [0, 1, 1, 0] expected: [np.int64(0), np.int64(1), np.int64(1), np.int64(0)]
+16:01:10 |     stdout |   ✅ two-layer MP network computes XOR
+16:01:10 |     stdout | 16:01:10 | INFO | figure saved -> figures/xor_hidden_space.png
+16:01:10 |     [figure rendered]
+16:01:10 | [cell 16/17] START  save_metrics("04", METRICS)
+16:01:10 | [cell 16/17] DONE in 0.01s
+16:01:10 |     stdout | 16:01:10 | INFO | metrics saved -> metrics.json
+16:01:10 |     stdout | 16:01:10 | INFO | notebook 04 finished OK
+16:01:11 | wrote 04_neurons_perceptrons.html
+16:01:11 | === SUCCESS in 8.9s ===
