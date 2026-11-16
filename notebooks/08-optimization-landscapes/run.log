@@ -1,0 +1,81 @@
+16:20:45 | === running 08_optimization_landscapes.ipynb ===
+16:20:45 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/08-optimization-landscapes
+16:20:45 | [cell 03/19] START  import sys
+16:20:49 | [cell 03/19] DONE in 3.82s
+16:20:49 |     stdout | 16:20:49 | INFO | seed set to 42
+16:20:49 |     stdout |           python: 3.12.16
+16:20:49 |     stdout |         platform: Linux-7.0.0-1016-aws-x86_64-with-glibc2.43
+16:20:49 |     stdout |        cpu_count: 4
+16:20:49 |     stdout |           ram_gb: 15.3
+16:20:49 |     stdout |            numpy: 2.5.5
+16:20:49 |     stdout |            scipy: 1.18.1
+16:20:49 |     stdout |          sklearn: 1.9.1
+16:20:49 |     stdout |       matplotlib: 3.11.2
+16:20:49 |     stdout |            torch: 2.15.0+cpu
+16:20:49 |     stdout |   cuda_available: False
+16:20:49 |     stdout |   github_actions: True
+16:20:49 |     stdout |           run_id: 43906231133
+16:20:49 |     stdout |           commit: ef4ff574d507a0667840c9e5080f02f959c27736
+16:20:49 | [cell 05/19] START  class SGD:
+16:20:49 | [cell 05/19] DONE in 0.01s
+16:20:49 |     stdout | optimisers ready
+16:20:49 | [cell 07/19] START  r = np.random.default_rng(0); p0 = r.normal(size=5); grads = [r.normal(size=5) for _ in ra
+16:20:50 | [cell 07/19] DONE in 0.95s
+16:20:50 |     stdout |   ✅ SGD+momentum  matches torch.optim (max diff 5.6e-16)
+16:20:50 |     stdout |   ✅ SGD+Nesterov  matches torch.optim (max diff 4.4e-16)
+16:20:50 |     stdout |   ✅ RMSProp       matches torch.optim (max diff 1.1e-16)
+16:20:50 |     stdout |   ✅ AdaGrad       matches torch.optim (max diff 5.6e-17)
+16:20:50 |     stdout |   ✅ Adam          matches torch.optim (max diff 0.0e+00)
+16:20:50 |     stdout |   ✅ AdamW         matches torch.optim (max diff 1.1e-16)
+16:20:50 | [cell 09/19] START  def quad(p): return .5 * (p[0] ** 2 + 50 * p[1] ** 2)
+16:20:51 | [cell 09/19] DONE in 0.76s
+16:20:51 |     stdout | 16:20:51 | INFO | figure saved -> figures/optimizer_trajectories.png
+16:20:51 |     [figure rendered]
+16:20:51 |     stdout | ('quad', 'SGD') 2.676e-02
+16:20:51 |     stdout | ('quad', 'Momentum') 1.189e-03
+16:20:51 |     stdout | ('quad', 'Nesterov') 1.515e-04
+16:20:51 |     stdout | ('quad', 'AdaGrad') 1.839e-11
+16:20:51 |     stdout | ('quad', 'RMSProp') 5.478e-03
+16:20:51 |     stdout | ('quad', 'Adam') 5.261e-03
+16:20:51 |     stdout | ('rosen', 'SGD') 9.314e-03
+16:20:51 |     stdout | ('rosen', 'Momentum') 2.646e-04
+16:20:51 |     stdout | ('rosen', 'Nesterov') 2.779e-04
+16:20:51 |     stdout | ('rosen', 'AdaGrad') 4.818e-04
+16:20:51 |     stdout | ('rosen', 'RMSProp') 5.619e-03
+16:20:51 |     stdout | ('rosen', 'Adam') 3.136e-13
+16:20:51 |     stdout |   ✅ momentum beats plain GD on the ill-conditioned quadratic
+16:20:51 |     stdout |   ✅ Adam makes real progress along the Rosenbrock valley
+16:20:51 | [cell 11/19] START  fs = lambda p: p[0] ** 2 - p[1] ** 2 + .25 * p[1] ** 4; gs = lambda p: np.array([2 * p[0],
+16:20:51 | [cell 11/19] DONE in 0.01s
+16:20:51 |     stdout | start on axis  -> final [0. 0.]  f = 0.0
+16:20:51 |     stdout | tiny noise     -> final [0.     1.4142]  f = -1.0
+16:20:51 |     stdout |   ✅ exact saddle traps GD (f≈0); a 1e-6 perturbation escapes to the true minima (f≈-1)
+16:20:51 |     stdout | Hessian eigenvalues at the saddle: [-2.  2.]
+16:20:51 | [cell 13/19] START  T, Tw, lr0 = 1000, 100, 1.0; t = np.arange(T)
+16:20:51 | [cell 13/19] DONE in 0.18s
+16:20:51 |     stdout | 16:20:51 | INFO | figure saved -> figures/lr_schedules.png
+16:20:51 |     [figure rendered]
+16:20:51 |     stdout |   ✅ our cosine schedule == torch CosineAnnealingLR
+16:20:51 | [cell 15/19] START  fc = lambda p: np.where(p[0] > 0, 100 * p[0], 0.5 * p[0] ** 2) + 0 * p[1]
+16:20:51 | [cell 15/19] DONE in 0.01s
+16:20:51 |     stdout | unclipped step -> [-49.999   0.   ]   clipped step -> [-0.499  0.   ]
+16:20:51 |     stdout |   ✅ clipping tames the cliff gradient
+16:20:51 |     stdout |   ✅ torch clip_grad_norm_: norm 50 -> 5
+16:20:51 | [cell 17/19] START  from sklearn.datasets import load_digits
+16:20:56 | [cell 17/19] DONE in 4.61s
+16:20:56 |     stdout | SGD       best lr=0.3     val acc=0.967  test acc=0.971
+16:20:56 |     stdout | Momentum  best lr=0.03    val acc=0.970  test acc=0.976
+16:20:56 |     stdout | Nesterov  best lr=0.03    val acc=0.970  test acc=0.971
+16:20:56 |     stdout | RMSProp   best lr=0.001   val acc=0.956  test acc=0.973
+16:20:56 |     stdout | Adam      best lr=0.003   val acc=0.970  test acc=0.976
+16:20:56 |     stdout | AdamW     best lr=0.003   val acc=0.970  test acc=0.976
+16:20:56 |     stdout | 16:20:55 | INFO | optimizer_comparison took 4.14s
+16:20:56 |     stdout | 16:20:56 | INFO | figure saved -> figures/optimizer_comparison.png
+16:20:56 |     [figure rendered]
+16:20:56 |     stdout |   ✅ every tuned optimiser exceeds 90% test accuracy
+16:20:56 | [cell 18/19] START  save_metrics("08", METRICS)
+16:20:56 | [cell 18/19] DONE in 0.00s
+16:20:56 |     stdout | 16:20:56 | INFO | metrics saved -> metrics.json
+16:20:56 |     stdout | 16:20:56 | INFO | notebook 08 finished OK
+16:20:57 | wrote 08_optimization_landscapes.html
+16:20:57 | === SUCCESS in 12.5s ===
