@@ -1,0 +1,77 @@
+18:15:48 | === running 15_positional_encoding.ipynb ===
+18:15:48 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/15-positional-encoding
+18:15:49 | [cell 03/17] START  import sys
+18:15:52 | [cell 03/17] DONE in 2.98s
+18:15:52 |     stdout | 18:15:51 | INFO | seed set to 42
+18:15:52 |     stdout |           python: 3.12.16
+18:15:52 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:15:52 |     stdout |        cpu_count: 4
+18:15:52 |     stdout |           ram_gb: 15.6
+18:15:52 |     stdout |            numpy: 2.5.5
+18:15:52 |     stdout |            scipy: 1.18.1
+18:15:52 |     stdout |          sklearn: 1.9.1
+18:15:52 |     stdout |       matplotlib: 3.11.2
+18:15:52 |     stdout |            torch: 2.15.0+cpu
+18:15:52 |     stdout |   cuda_available: False
+18:15:52 |     stdout |   github_actions: True
+18:15:52 |     stdout |           run_id: 43926778423
+18:15:52 |     stdout |           commit: a4aa24e57dfd9f88471149adff810366178f90be
+18:15:52 | [cell 05/17] START  class Attn(nn.Module):
+18:15:57 | [cell 05/17] DONE in 5.27s
+18:15:57 |     stdout | is-sorted accuracy: without positions 0.497   with learned positions 0.995
+18:15:57 |     stdout |   ✅ positions help substantially on an order-dependent task
+18:15:57 |     stdout |   ✅ without positions the logits are EXACTLY invariant to token order (can't see order)
+18:15:57 | [cell 07/17] START  def sinusoidal(T, d):
+18:15:58 | [cell 07/17] DONE in 0.73s
+18:15:58 |     stdout | 18:15:57 | INFO | figure saved -> figures/sinusoidal_pe.png
+18:15:58 |     [figure rendered]
+18:15:58 |     stdout |   ✅ PE(p)·PE(p+k) depends only on k, not on p
+18:15:58 |     stdout |   ✅ similarity decays with distance
+18:15:58 |     stdout |   ✅ PE(p+k) = (rotation by k) · PE(p)  — a linear map
+18:15:58 | [cell 09/17] START  def rope_angles(T, dk, base=10000.): inv = 1 / base ** (np.arange(0, dk, 2) / dk); return 
+18:15:58 | [cell 09/17] DONE in 0.26s
+18:15:58 |     stdout |   ✅ offset m-n=  0: RoPE score constant across absolute positions
+18:15:58 |     stdout |   ✅ offset m-n=  3: RoPE score constant across absolute positions
+18:15:58 |     stdout |   ✅ offset m-n= -7: RoPE score constant across absolute positions
+18:15:58 |     stdout |   ✅ offset m-n= 20: RoPE score constant across absolute positions
+18:15:58 |     stdout |   ✅ rotations preserve vector norms
+18:15:58 |     stdout | 18:15:58 | INFO | figure saved -> figures/rope_relative.png
+18:15:58 |     [figure rendered]
+18:15:58 | [cell 11/17] START  def t5_bucket(rel, nb=16, maxd=64):                         # causal-style bucketing of (i
+18:15:58 | [cell 11/17] DONE in 0.52s
+18:15:58 |     stdout | T5 buckets for offsets 0..99: [ 0  1  7  8  8 10 13 15 15]  (exact up to 7, log-spaced beyond)
+18:15:58 |     stdout |   ✅ T5 bucketing maps all offsets into ≤16 monotone buckets
+18:15:58 |     stdout | 18:15:58 | INFO | figure saved -> figures/alibi_bias.png
+18:15:58 |     [figure rendered]
+18:15:58 |     stdout |   ✅ ALiBi penalises only distance; self-attention has zero penalty
+18:15:58 | [cell 13/17] START  class PosLM(nn.Module):
+18:16:52 | [cell 13/17] DONE in 53.70s
+18:16:52 |     stdout | none        accuracy at T=16/32/64: [0.492 0.353 0.27 ]
+18:16:52 |     stdout | learned     accuracy at T=16/32/64: [ 1. nan nan]
+18:16:52 |     stdout | sinusoidal  accuracy at T=16/32/64: [1.    0.507 0.31 ]
+18:16:52 |     stdout | rope        accuracy at T=16/32/64: [1.    0.966 0.734]
+18:16:52 |     stdout | alibi       accuracy at T=16/32/64: [0.855 0.749 0.64 ]
+18:16:52 |     stdout | 18:16:52 | INFO | position_extrapolation took 53.40s
+18:16:52 |     stdout | 18:16:52 | INFO | figure saved -> figures/position_extrapolation.png
+18:16:52 |     [figure rendered]
+18:16:52 |     stdout |   ✅ at least one position scheme beats no-position on the training length
+18:16:52 |     stdout |   ✅ learned absolute embeddings cannot be evaluated beyond the training length
+18:16:52 | [cell 15/17] START  class GQA(nn.Module):
+18:16:52 | [cell 15/17] DONE in 0.02s
+18:16:52 |     stdout | groups g=8: KV params/token (per layer) =  128  -> cache ÷1; attention params = 16,640
+18:16:52 |     stdout |   ✅ GQA g=8 output shape ok
+18:16:52 |     stdout | groups g=4: KV params/token (per layer) =   64  -> cache ÷2; attention params = 12,480
+18:16:52 |     stdout |   ✅ GQA g=4 output shape ok
+18:16:52 |     stdout | groups g=2: KV params/token (per layer) =   32  -> cache ÷4; attention params = 10,400
+18:16:52 |     stdout |   ✅ GQA g=2 output shape ok
+18:16:52 |     stdout | groups g=1: KV params/token (per layer) =   16  -> cache ÷8; attention params = 9,360
+18:16:52 |     stdout |   ✅ GQA g=1 output shape ok
+18:16:52 |     stdout |   ✅ MQA has fewer attention parameters than MHA
+18:16:52 |     stdout | 7B-class model, fp16 KV cache per token: MHA 0.50 MiB vs GQA(8 kv heads) 0.12 MiB  -> 4k context: 2.0 GiB vs 0.5 GiB
+18:16:52 |     stdout |   ✅ GQA with 8 of 32 kv-heads cuts the KV cache by 4×
+18:16:52 | [cell 16/17] START  save_metrics("15", METRICS)
+18:16:52 | [cell 16/17] DONE in 0.01s
+18:16:52 |     stdout | 18:16:52 | INFO | metrics saved -> metrics.json
+18:16:52 |     stdout | 18:16:52 | INFO | notebook 15 finished OK
+18:16:54 | wrote 15_positional_encoding.html
+18:16:54 | === SUCCESS in 66.0s ===
