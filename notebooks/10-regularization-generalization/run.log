@@ -1,0 +1,77 @@
+16:32:53 | === running 10_regularization_generalization.ipynb ===
+16:32:53 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/10-regularization-generalization
+16:32:54 | [cell 03/18] START  import sys
+16:32:55 | [cell 03/18] DONE in 1.93s
+16:32:55 |     stdout | 16:32:55 | INFO | seed set to 42
+16:32:55 |     stdout |           python: 3.12.16
+16:32:55 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:32:55 |     stdout |        cpu_count: 4
+16:32:55 |     stdout |           ram_gb: 15.6
+16:32:55 |     stdout |            numpy: 2.5.5
+16:32:55 |     stdout |            scipy: 1.18.1
+16:32:55 |     stdout |          sklearn: 1.9.1
+16:32:55 |     stdout |       matplotlib: 3.11.2
+16:32:55 |     stdout |            torch: 2.15.0+cpu
+16:32:55 |     stdout |   cuda_available: False
+16:32:55 |     stdout |   github_actions: True
+16:32:55 |     stdout |           run_id: 43908542421
+16:32:55 |     stdout |           commit: 6100d685c7c0a5e4c4b215a6355f6a5028430be8
+16:32:55 | [cell 05/18] START  from sklearn.feature_selection import SelectKBest, f_classif
+16:32:56 | [cell 05/18] DONE in 0.15s
+16:32:56 |     stdout | leaky CV accuracy on RANDOM labels: 0.85   |   correct pipeline: 0.48
+16:32:56 |     stdout |   ✅ leakage creates fake accuracy; a Pipeline removes it
+16:32:56 | [cell 07/18] START  f_true = lambda x: np.sin(2 * np.pi * x); sigma = .3; xt = np.linspace(.02, .98, 60); degr
+16:32:56 | [cell 07/18] DONE in 0.68s
+16:32:56 |     stdout | 16:32:56 | INFO | figure saved -> figures/bias_variance.png
+16:32:56 |     [figure rendered]
+16:32:56 |     stdout | best degree: 3  test err: 0.1131
+16:32:56 |     stdout |   ✅ low degree: high bias; high degree: high variance
+16:32:56 |     stdout |   ✅ optimal complexity is in the middle (U-shaped test error)
+16:32:56 |     stdout |   ✅ training error decreases monotonically-ish with complexity
+16:32:56 | [cell 09/18] START  from sklearn.linear_model import Lasso, Ridge, LinearRegression
+16:32:57 | [cell 09/18] DONE in 0.29s
+16:32:57 |     stdout | non-zero coefficients: OLS 40, ridge 40, lasso 11  (truth 5)
+16:32:57 |     stdout | 16:32:57 | INFO | figure saved -> figures/l1_vs_l2.png
+16:32:57 |     [figure rendered]
+16:32:57 |     stdout |   ✅ lasso is sparse; ridge shrinks but never zeroes
+16:32:57 |     stdout | test MSE  OLS 0.875  ridge 10.987  lasso 0.953
+16:32:57 |     stdout |   ✅ SGD: L2 penalty ≡ weight decay
+16:32:57 | [cell 11/18] START  def dropout(x, p, rng): mask = (rng.random(x.shape) >= p) / (1 - p); return x * mask
+16:32:57 | [cell 11/18] DONE in 0.01s
+16:32:57 |     stdout | p=0.1: mean output 0.999 (should be 1), zeros 0.101
+16:32:57 |     stdout |   ✅ inverted dropout p=0.1: unbiased, correct drop rate
+16:32:57 |     stdout | p=0.5: mean output 1.000 (should be 1), zeros 0.500
+16:32:57 |     stdout |   ✅ inverted dropout p=0.5: unbiased, correct drop rate
+16:32:57 |     stdout | p=0.9: mean output 1.005 (should be 1), zeros 0.900
+16:32:57 |     stdout |   ✅ inverted dropout p=0.9: unbiased, correct drop rate
+16:32:57 |     stdout |   ✅ torch Dropout: scaled in train mode, identity in eval mode
+16:32:57 | [cell 13/18] START  from sklearn.datasets import load_digits
+16:33:05 | [cell 13/18] DONE in 8.43s
+16:33:05 |     stdout | 16:33:05 | INFO | regularisation_sweep took 8.08s
+16:33:05 |     stdout | baseline         final val acc 0.923  best val acc 0.932 @epoch  17  test acc 0.946
+16:33:05 |     stdout | weight decay     final val acc 0.925  best val acc 0.940 @epoch  77  test acc 0.949
+16:33:05 |     stdout | dropout          final val acc 0.922  best val acc 0.938 @epoch 128  test acc 0.934
+16:33:05 |     stdout | label smoothing  final val acc 0.950  best val acc 0.955 @epoch  48  test acc 0.953
+16:33:05 |     stdout | noise            final val acc 0.925  best val acc 0.945 @epoch  78  test acc 0.940
+16:33:05 |     stdout | mixup            final val acc 0.930  best val acc 0.953 @epoch  38  test acc 0.942
+16:33:05 |     stdout | 16:33:05 | INFO | figure saved -> figures/regularization_methods.png
+16:33:05 |     [figure rendered]
+16:33:05 |     stdout |   ✅ at least one regulariser matches or beats the baseline
+16:33:05 | [cell 14/18] START  # Early stopping + ensembling (averaging softmax outputs of 5 seeds)
+16:33:13 | [cell 14/18] DONE in 8.03s
+16:33:13 |     stdout | baseline: stopped at best epoch 17 -> val acc 0.932
+16:33:13 |     stdout | single models: [0.934 0.925 0.948 0.937 0.934]  ensemble: 0.94
+16:33:13 |     stdout |   ✅ ensemble accuracy ≥ average single-model accuracy
+16:33:13 | [cell 16/18] START  n_train, d_in = 40, 5; r = np.random.default_rng(0); wstar = r.normal(size=d_in)
+16:33:14 | [cell 16/18] DONE in 0.83s
+16:33:14 |     stdout | 16:33:14 | INFO | figure saved -> figures/double_descent.png
+16:33:14 |     [figure rendered]
+16:33:14 |     stdout | peak test error at p = 40
+16:33:14 |     stdout |   ✅ test error peaks at the interpolation threshold
+16:33:14 |     stdout |   ✅ error falls again far into the over-parameterised regime
+16:33:14 | [cell 17/18] START  save_metrics("10", METRICS)
+16:33:14 | [cell 17/18] DONE in 0.01s
+16:33:14 |     stdout | 16:33:14 | INFO | metrics saved -> metrics.json
+16:33:14 |     stdout | 16:33:14 | INFO | notebook 10 finished OK
+16:33:15 | wrote 10_regularization_generalization.html
+16:33:15 | === SUCCESS in 22.3s ===
