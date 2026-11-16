@@ -1,0 +1,149 @@
+18:17:10 | === running 23_llm_multimodal.ipynb ===
+18:17:10 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/23-llm-multimodal
+18:17:11 | [cell 03/23] START  import sys
+18:17:14 | [cell 03/23] DONE in 3.79s
+18:17:14 |     stdout | 18:17:13 | INFO | seed set to 42
+18:17:14 |     stdout |           python: 3.12.16
+18:17:14 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:17:14 |     stdout |        cpu_count: 4
+18:17:14 |     stdout |           ram_gb: 15.6
+18:17:14 |     stdout |            numpy: 2.5.5
+18:17:14 |     stdout |            scipy: 1.18.1
+18:17:14 |     stdout |          sklearn: 1.9.1
+18:17:14 |     stdout |       matplotlib: 3.11.2
+18:17:14 |     stdout |            torch: 2.15.0+cpu
+18:17:14 |     stdout |   cuda_available: False
+18:17:14 |     stdout |   github_actions: True
+18:17:14 |     stdout |           run_id: 43926993560
+18:17:14 |     stdout |           commit: acc07d99b904294ae92eb2f8b2a6d252095f266e
+18:17:14 | [cell 05/23] START  import inspect, importlib, random, re
+18:17:15 | [cell 05/23] DONE in 0.08s
+18:17:15 |     stdout | 2,667 documents | train 1,016,875 chars | val 113,229 chars
+18:17:15 |     stdout | --- sample ---
+18:17:15 |     stdout | IPV6_RECVTCLASS
+18:17:15 |     stdout | int([x]) -> integer
+18:17:15 |     stdout | int(x, base=10) -> integer
+18:17:15 |     stdout | 
+18:17:15 |     stdout | Convert a number or string to an integer, or return 0 if no arguments
+18:17:15 |     stdout | are given.  If x is a number, return x.__int__().  For floating-point
+18:17:15 |     stdout | numbers, this truncates towards zero.
+18:17:15 |     stdout | 
+18:17:15 |     stdout | If x is not a number or if base is given, then x must be 
+18:17:15 |     stdout |   ✅ corpus has > 150k characters
+18:17:15 | [cell 07/23] START  from collections import Counter
+18:17:32 | [cell 07/23] DONE in 17.89s
+18:17:32 |     stdout | 18:17:32 | INFO | bpe_training took 16.95s
+18:17:32 |     stdout | base symbols 95, merges 400, vocab 495
+18:17:32 |     stdout | first merges: [('i', 'n'), ('e', 'r'), (' ', 't'), (' ', 'a'), (' ', ' '), (' ', 'b'), ('h', 'e'), ('r', 'e')]
+18:17:32 |     stdout | last merges : [('e', 'xt'), (')', '.'), ('e', 't'), (' me', 'th'), ('.', '.')]
+18:17:32 |     stdout | 
+18:17:32 |     stdout | sample: 624 chars -> 127 tokens  (compression ×4.91)
+18:17:32 |     stdout | tokens: ['T', 'C', 'P', '_', 'R', 'E', 'P', 'A', 'I', 'R', '_', 'O', 'P', 'T', 'I', 'O', 'N', 'S', '\nint([x])', ' ->', ' integer', '\nint(x,', ' base=10)', ' ->', ' integer']
+18:17:32 |     stdout |   ✅ decode(encode(x)) == x  (lossless round trip)
+18:17:32 |     stdout |   ✅ round trip holds for 50 held-out documents
+18:17:32 |     stdout | 18:17:32 | INFO | figure saved -> figures/bpe_compression.png
+18:17:32 |     [figure rendered]
+18:17:32 |     stdout |   ✅ 400 merges compress held-out text by > 2 chars/token
+18:17:32 |     stdout | a rare unseen word is split into pieces, never <unk>: [' flo', 'c', 'c', 'in', 'a', 'u', 'c', 'in', 'i', 'hi', 'l', 'i', 'p', 'il', 'i', 'fi', 'c', 'ation']
+18:17:32 | [cell 09/23] START  tr_ids = torch.tensor(bpe.encode(train_text)); va_ids = torch.tensor(bpe.encode(val_text))
+18:18:29 | [cell 09/23] DONE in 56.92s
+18:18:29 |     stdout | train tokens 370,726, val tokens 39,110, vocab 495
+18:18:29 |     stdout |   step    0 train 65.141  val 64.008
+18:18:29 |     stdout |   step  140 train 4.710  val 4.029
+18:18:29 |     stdout |   step  280 train 3.166  val 3.279
+18:18:29 |     stdout |   step  420 train 3.547  val 2.949
+18:18:29 |     stdout |   step  560 train 2.959  val 2.778
+18:18:29 |     stdout | 18:18:29 | INFO | gpt_main_training took 54.63s
+18:18:29 |     stdout | params 395,520 | val loss 2.643 nats/token | perplexity 14.1 | bits/char 1.317 | uniform-baseline ppl 495
+18:18:29 |     stdout | 18:18:29 | INFO | figure saved -> figures/gpt_train_loss.png
+18:18:29 |     [figure rendered]
+18:18:29 |     stdout |   ✅ validation perplexity is far below the uniform baseline (vocab size)
+18:18:29 | [cell 11/23] START  sizes = [(16, 1), (32, 2), (64, 2), (128, 3)]; pts = []
+18:20:00 | [cell 11/23] DONE in 90.50s
+18:20:00 |     stdout | d= 16 L=1: non-embedding params    3,312  val loss 5.390
+18:20:00 |     stdout | d= 32 L=2: non-embedding params   25,472  val loss 4.155
+18:20:00 |     stdout | d= 64 L=2: non-embedding params  100,096  val loss 3.606
+18:20:00 |     stdout | d=128 L=3: non-embedding params  595,072  val loss 2.620
+18:20:00 |     stdout | 18:19:59 | INFO | scaling_sweep took 90.07s
+18:20:00 |     stdout | 18:20:00 | INFO | figure saved -> figures/scaling_law.png
+18:20:00 |     [figure rendered]
+18:20:00 |     stdout | log-log slope of loss vs N: -0.136
+18:20:00 |     stdout |   ✅ validation loss decreases monotonically with model size
+18:20:00 |     stdout |   ✅ negative log-log slope (power-law-like trend)
+18:20:00 | [cell 13/23] START  import time
+18:20:00 | [cell 13/23] DONE in 0.18s
+18:20:00 |     stdout | no cache: 0.098s   with KV cache: 0.060s   speed-up ×1.6
+18:20:00 |     stdout | generated: 'The function returns is ad, the signcess.\n\nThe opencessert.\n\nThe res a shomenert is a testamatormenting the res a temmined.\n\nThe re'
+18:20:00 |     stdout |   ✅ greedy decoding with and without the KV cache yields IDENTICAL tokens
+18:20:00 |     stdout |   ✅ incremental logits == full-forward logits (max diff 6.9e-06)
+18:20:00 |     stdout |   ✅ the KV cache makes decoding faster
+18:20:00 |     stdout | 7B-class fp16 KV cache: 0.50 MiB/token -> 2.0 GiB at 4k context
+18:20:00 | [cell 15/23] START  def filter_logits(z, top_k=0, top_p=1.0):
+18:20:04 | [cell 15/23] DONE in 3.70s
+18:20:04 |     stdout |   ✅ top-k=2 keeps exactly 2 tokens
+18:20:04 |     stdout |   ✅ top-p=0.8 keeps the minimal prefix with mass ≥ 0.8 (here 3 tokens: .5+.25+.15=.9)
+18:20:04 |     stdout |   ✅ T→0 is greedy, T→∞ uniform
+18:20:04 |     stdout | greedy           distinct-2 0.810   sample: 'Return the sicess.\n\nBogs a\nccesserstemaget is a t'
+18:20:04 |     stdout | T=0.7            distinct-2 0.934   sample: 'Return the otherI.\n\n\nint([x]) -> integer\nint(x,\nint(x, base=10) -> integer\n\nConvert a number or string to an i'
+18:20:04 |     stdout | T=1.0            distinct-2 0.986   sample: "Return the thand Trueue`` to keesatext-pend='cuff plated"
+18:20:04 |     stdout | T=1.0 top-k 10   distinct-2 0.932   sample: 'Return the otherI.tatortruesatext and a tast\nche plated'
+18:20:04 |     stdout | T=1.0 top-p .9   distinct-2 0.994   sample: "Return the thand Trueue`` to keesatext-pend='chenameted"
+18:20:04 |     stdout | T=1.5            distinct-2 0.988   sample: 'Return thees l or\nint(x, base=10) -> integer\n\nConvert other de not a integer end(bytes_c) -> strted'
+18:20:04 |     stdout |   ✅ greedy decoding is more repetitive than sampling at T=1
+18:20:04 |     stdout |   ✅ higher temperature -> more diverse
+18:20:04 |     stdout | 18:20:04 | INFO | figure saved -> figures/decoding_diversity.png
+18:20:04 |     [figure rendered]
+18:20:04 | [cell 17/23] START  K = 6; r_true = torch.tensor([0., 1., 2., 3., 4., 5.]) * .6; rng = np.random.default_rng(0
+18:20:08 | [cell 17/23] DONE in 3.76s
+18:20:08 |     stdout | true reward : [-1.5 -0.9 -0.3  0.3  0.9  1.5]
+18:20:08 |     stdout | learned (centred): [-1.39 -0.79 -0.28  0.25  0.72  1.49]
+18:20:08 |     stdout |   ✅ reward model recovers the correct ranking of all 6 responses
+18:20:08 |     stdout |   ✅ …and the reward values up to a constant shift
+18:20:08 |     stdout |   ✅ at π = π_ref the DPO loss is exactly log 2
+18:20:08 |     stdout | β= 0.05: E_π[r] 3.00   KL(π‖π_ref) 3.38   top response prob 1.00
+18:20:08 |     stdout | β=  0.2: E_π[r] 2.97   KL(π‖π_ref) 3.18   top response prob 0.96
+18:20:08 |     stdout | β=  1.0: E_π[r] 1.60   KL(π‖π_ref) 0.43   top response prob 0.21
+18:20:08 |     stdout | β=  5.0: E_π[r] 0.87   KL(π‖π_ref) 0.01   top response prob 0.36
+18:20:08 |     stdout | reference policy E[r] = 0.74
+18:20:08 |     stdout |   ✅ DPO improves expected true reward for every β
+18:20:08 |     stdout |   ✅ small β: larger reward gain but larger KL from the reference (β is a trust-region knob)
+18:20:08 |     stdout | 18:20:07 | INFO | figure saved -> figures/dpo.png
+18:20:08 |     [figure rendered]
+18:20:08 |     stdout | note: with finite noisy data the DPO policy approximates (not exactly equals) the closed-form optimum π* ∝ π_ref·exp(r/β):
+18:20:08 |     stdout |   β=0.05: max |π−π*| = 0.000
+18:20:08 |     stdout |   β=0.2: max |π−π*| = 0.043
+18:20:08 |     stdout |   β=1.0: max |π−π*| = 0.031
+18:20:08 |     stdout |   β=5.0: max |π−π*| = 0.004
+18:20:08 |     result | [None, None, None, None]
+18:20:08 | [cell 19/23] START  from sklearn.feature_extraction.text import TfidfVectorizer
+18:20:08 | [cell 19/23] DONE in 0.37s
+18:20:08 |     stdout | 2,667 indexed docs, 300 queries -> recall@1 0.16 @5 0.32 @10 0.37 @50 0.48  MRR 0.24   (random recall@5 ≈ 0.0019)
+18:20:08 |     stdout |   ✅ TF-IDF retrieval is vastly better than random
+18:20:08 |     stdout |   ✅ no trivial leakage: recall@1 is below 100%
+18:20:08 |     stdout | 
+18:20:08 |     stdout | QUERY: int([x]) -> integer
+18:20:08 |     stdout | int(x, base=10) -> integer
+18:20:08 |     stdout | 
+18:20:08 |     stdout | Convert a number or string to an integer, or return 0 if no arguments
+18:20:08 |     stdout | ar
+18:20:08 |     stdout |   rank 1 (score 0.40): LIST
+18:20:08 |     stdout |   rank 2 (score 0.40): GLOBAL
+18:20:08 |     stdout |   rank 3 (score 0.40): EMPTY_LIST
+18:20:08 |     stdout | 
+18:20:08 |     stdout | assembled prompt uses 166 context tokens (budget 250) with 1 documents
+18:20:08 |     stdout |   ✅ prompt assembly respects the context-token budget
+18:20:08 |     stdout | 18:20:08 | INFO | figure saved -> figures/rag_recall.png
+18:20:08 |     [figure rendered]
+18:20:08 | [cell 21/23] START  from sklearn.datasets import load_digits
+18:20:08 | [cell 21/23] DONE in 0.21s
+18:20:08 |     stdout | patch tokens: (4, 16, 16) = (batch, #patches, d_model)
+18:20:08 |     stdout |   ✅ 8×8 image / 2×2 patches -> 16 tokens
+18:20:08 |     stdout |   ✅ linear projection of flattened patches == strided convolution
+18:20:08 |     stdout |   ✅ multimodal sequence = [16 image tokens ; 5 text tokens] fed to one Transformer
+18:20:08 |     stdout | a 224×224 image with 16×16 patches -> 196 tokens; attention cost ∝ 196² = 38,416
+18:20:08 | [cell 22/23] START  save_metrics("23", METRICS)
+18:20:08 | [cell 22/23] DONE in 0.01s
+18:20:08 |     stdout | 18:20:08 | INFO | metrics saved -> metrics.json
+18:20:08 |     stdout | 18:20:08 | INFO | notebook 23 finished OK
+18:20:10 | wrote 23_llm_multimodal.html
+18:20:10 | === SUCCESS in 180.3s ===
