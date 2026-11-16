@@ -1,0 +1,80 @@
+16:04:34 | === running 05_activations_expressivity.ipynb ===
+16:04:34 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/05-activations-expressivity
+16:04:35 | [cell 03/15] START  import sys
+16:04:38 | [cell 03/15] DONE in 3.73s
+16:04:38 |     stdout | 16:04:37 | INFO | seed set to 42
+16:04:38 |     stdout |           python: 3.12.16
+16:04:38 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:04:38 |     stdout |        cpu_count: 4
+16:04:38 |     stdout |           ram_gb: 15.6
+16:04:38 |     stdout |            numpy: 2.5.5
+16:04:38 |     stdout |            scipy: 1.18.1
+16:04:38 |     stdout |          sklearn: 1.9.1
+16:04:38 |     stdout |       matplotlib: 3.11.2
+16:04:38 |     stdout |            torch: 2.15.0+cpu
+16:04:38 |     stdout |   cuda_available: False
+16:04:38 |     stdout |   github_actions: True
+16:04:38 |     stdout |           run_id: 43903194176
+16:04:38 |     stdout |           commit: 6ca8c2a63d0e8ed94b7f5662f372c2c8bae1c8b8
+16:04:38 | [cell 05/15] START  from scipy.special import erf, expit
+16:04:39 | [cell 05/15] DONE in 0.58s
+16:04:39 |     stdout |   ✅ sigmoid: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ tanh: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ relu: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ leaky_relu: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ softplus: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ gelu: analytic derivative matches finite difference
+16:04:39 |     stdout |   ✅ silu: analytic derivative matches finite difference
+16:04:39 |     stdout | 16:04:39 | INFO | figure saved -> figures/activations.png
+16:04:39 |     [figure rendered]
+16:04:39 |     stdout |   ✅ our GELU == torch GELU
+16:04:39 |     stdout |   ✅ our SiLU == torch SiLU
+16:04:39 | [cell 07/15] START  depths = np.arange(1, 31)
+16:04:40 | [cell 07/15] DONE in 1.02s
+16:04:40 |     stdout | 16:04:40 | INFO | figure saved -> figures/vanishing_gradient_chain.png
+16:04:40 |     [figure rendered]
+16:04:40 |     stdout |   ✅ sigmoid chain of 30 layers shrinks gradients below 1e-17 even in the best case
+16:04:40 |     stdout |   ✅ ReLU preserves far more gradient than sigmoid at depth 5
+16:04:40 | [cell 09/15] START  def softmax(z, T=1.0):
+16:04:40 | [cell 09/15] DONE in 0.01s
+16:04:40 |     stdout | T=0.1  [1. 0. 0.]
+16:04:40 |     stdout | T=0.5  [0.8638 0.1169 0.0193]
+16:04:40 |     stdout | T=1    [0.659  0.2424 0.0986]
+16:04:40 |     stdout | T=2    [0.5017 0.3043 0.194 ]
+16:04:40 |     stdout | T=10   [0.3661 0.3312 0.3027]
+16:04:40 |     stdout |   ✅ shift invariance
+16:04:40 |     stdout |   ✅ matches torch.softmax
+16:04:40 |     stdout |   ✅ T→0 argmax, T→∞ uniform
+16:04:40 |     stdout |   ✅ softmax Jacobian rows sum to zero (outputs always sum to 1)
+16:04:40 | [cell 11/15] START  target = lambda x: np.sin(3 * x) + .5 * np.sin(11 * x) * np.exp(-x**2 / 4)
+16:04:41 | [cell 11/15] DONE in 0.93s
+16:04:41 |     stdout | 16:04:41 | INFO | figure saved -> figures/universal_approximation.png
+16:04:41 |     [figure rendered]
+16:04:41 |     stdout | {'tanh': [np.float64(0.7181), np.float64(0.5885), np.float64(0.401), np.float64(0.2241), np.float64(0.0753), np.float64(0.0004), np.float64(0.0), np.float64(0.0)], 'relu': [np.float64(0.7559), np.float64(0.7272), np.float64(0.5126), np.float64(0.2726), np.float64(0.1952), np.float64(0.1103), np.float64(0.0457), np.float64(0.0118)]}
+16:04:41 |     stdout |   ✅ tanh error drops >20x from width 2 to 256
+16:04:41 | [cell 13/15] START  relu = lambda z: np.maximum(0, z)
+16:04:42 | [cell 13/15] DONE in 0.68s
+16:04:42 |     stdout | depth 1: neurons=  2  linear pieces=   2  (2^d = 2)
+16:04:42 |     stdout |   ✅ depth 1 -> exactly 2^1 pieces
+16:04:42 |     stdout | depth 2: neurons=  4  linear pieces=   4  (2^d = 4)
+16:04:42 |     stdout |   ✅ depth 2 -> exactly 2^2 pieces
+16:04:42 |     stdout | depth 3: neurons=  6  linear pieces=   8  (2^d = 8)
+16:04:42 |     stdout |   ✅ depth 3 -> exactly 2^3 pieces
+16:04:42 |     stdout | depth 4: neurons=  8  linear pieces=  16  (2^d = 16)
+16:04:42 |     stdout |   ✅ depth 4 -> exactly 2^4 pieces
+16:04:42 |     stdout | depth 5: neurons= 10  linear pieces=  32  (2^d = 32)
+16:04:42 |     stdout |   ✅ depth 5 -> exactly 2^5 pieces
+16:04:42 |     stdout | depth 6: neurons= 12  linear pieces=  64  (2^d = 64)
+16:04:42 |     stdout |   ✅ depth 6 -> exactly 2^6 pieces
+16:04:42 |     stdout | depth 7: neurons= 14  linear pieces= 128  (2^d = 128)
+16:04:42 |     stdout |   ✅ depth 7 -> exactly 2^7 pieces
+16:04:42 |     stdout | depth 8: neurons= 16  linear pieces= 256  (2^d = 256)
+16:04:42 |     stdout |   ✅ depth 8 -> exactly 2^8 pieces
+16:04:42 |     stdout | 16:04:41 | INFO | figure saved -> figures/tent_map_depth.png
+16:04:42 |     [figure rendered]
+16:04:42 | [cell 14/15] START  save_metrics("05", METRICS)
+16:04:42 | [cell 14/15] DONE in 0.01s
+16:04:42 |     stdout | 16:04:42 | INFO | metrics saved -> metrics.json
+16:04:42 |     stdout | 16:04:42 | INFO | notebook 05 finished OK
+16:04:43 | wrote 05_activations_expressivity.html
+16:04:43 | === SUCCESS in 9.3s ===
