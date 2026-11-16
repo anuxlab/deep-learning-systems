@@ -1,0 +1,120 @@
+18:07:50 | === running 12_rnn_lstm_gru.ipynb ===
+18:07:50 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/12-rnn-lstm-gru
+18:07:51 | [cell 03/19] START  import sys
+18:07:53 | [cell 03/19] DONE in 2.30s
+18:07:53 |     stdout | 18:07:52 | INFO | seed set to 42
+18:07:53 |     stdout |           python: 3.12.16
+18:07:53 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:07:53 |     stdout |        cpu_count: 4
+18:07:53 |     stdout |           ram_gb: 15.6
+18:07:53 |     stdout |            numpy: 2.5.5
+18:07:53 |     stdout |            scipy: 1.18.1
+18:07:53 |     stdout |          sklearn: 1.9.1
+18:07:53 |     stdout |       matplotlib: 3.11.2
+18:07:53 |     stdout |            torch: 2.15.0+cpu
+18:07:53 |     stdout |   cuda_available: False
+18:07:53 |     stdout |   github_actions: True
+18:07:53 |     stdout |           run_id: 43925401136
+18:07:53 |     stdout |           commit: f2ee1610d48ee6d48f684d03ebbcbfea0d82c006
+18:07:53 | [cell 05/19] START  class NpRNN:
+18:07:53 | [cell 05/19] DONE in 0.03s
+18:07:53 |     stdout |   ✅ BPTT gradients match finite differences (worst relative error 1.6e-07)
+18:07:53 | [cell 07/19] START  def jacobian_norms(rho, T=60, n=32, seed=0):
+18:07:54 | [cell 07/19] DONE in 0.48s
+18:07:54 |     stdout | 18:07:53 | INFO | figure saved -> figures/bptt_gradient_flow.png
+18:07:54 |     [figure rendered]
+18:07:54 |     stdout |   ✅ ρ=0.5: gradient w.r.t. early steps vanishes
+18:07:54 |     stdout |   ✅ ρ=3: gradient does not vanish (tanh saturation limits explosion)
+18:07:54 | [cell 09/19] START  sig = lambda x: 1 / (1 + np.exp(-x))
+18:07:54 | [cell 09/19] DONE in 0.01s
+18:07:54 |     stdout |   ✅ from-scratch LSTM == nn.LSTMCell over 10 steps
+18:07:54 |     stdout |   ✅ from-scratch GRU == nn.GRUCell over 10 steps
+18:07:54 |     stdout | params  RNN 6,272  GRU 18,816  LSTM 25,088  (ratios 1 : 3 : 4)
+18:07:54 |     stdout |   ✅ parameter ratio RNN:GRU:LSTM = 1:3:4
+18:07:54 | [cell 11/19] START  def input_grad_profile(kind, T=100, h=64, trials=20, forget_bias=False):
+18:07:54 | [cell 11/19] DONE in 0.82s
+18:07:54 |     stdout | 18:07:54 | INFO | figure saved -> figures/gated_gradient_flow.png
+18:07:54 |     [figure rendered]
+18:07:54 |     stdout | RNN                    gradient at t=1: 1.87e-22   at t=50: 4.54e-12   at t=100: 1.46e+00
+18:07:54 |     stdout | GRU                    gradient at t=1: 1.60e-19   at t=50: 1.05e-10   at t=100: 7.29e-01
+18:07:54 |     stdout | LSTM                   gradient at t=1: 1.56e-20   at t=50: 3.42e-11   at t=100: 3.61e-01
+18:07:54 |     stdout | LSTM (forget bias 1)   gradient at t=1: 5.03e-08   at t=50: 7.68e-05   at t=100: 3.61e-01
+18:07:54 |     stdout |   ✅ gated cell with forget-bias 1 passes >1000× more gradient to t=1 than the vanilla RNN
+18:07:54 | [cell 13/19] START  def make_batch(B, T, rng):
+18:09:10 | [cell 13/19] DONE in 75.44s
+18:09:10 |     stdout | RNN   T= 10  accuracy 1.000
+18:09:10 |     stdout | RNN   T= 40  accuracy 0.519
+18:09:10 |     stdout | RNN   T=100  accuracy 0.256
+18:09:10 |     stdout | GRU   T= 10  accuracy 1.000
+18:09:10 |     stdout | GRU   T= 40  accuracy 0.258
+18:09:10 |     stdout | GRU   T=100  accuracy 0.268
+18:09:10 |     stdout | LSTM  T= 10  accuracy 1.000
+18:09:10 |     stdout | LSTM  T= 40  accuracy 0.509
+18:09:10 |     stdout | LSTM  T=100  accuracy 0.258
+18:09:10 |     stdout | 18:09:10 | INFO | memory_task took 75.21s
+18:09:10 |     stdout | 18:09:10 | INFO | figure saved -> figures/memory_task.png
+18:09:10 |     [figure rendered]
+18:09:10 |     stdout |   ✅ every architecture solves the short-delay task (T=10)
+18:09:10 | [cell 15/19] START  import codecs, this
+18:09:38 | [cell 15/19] DONE in 28.24s
+18:09:38 |     stdout | The Zen of Python, by Tim Peters
+18:09:38 |     stdout | 
+18:09:38 |     stdout | Beautiful is better than ugly.
+18:09:38 |     stdout | Explicit is better than implicit.
+18:09:38 |     stdout | Simple is better than complex.
+18:09:38 |     stdout | Complex is better than complicated.
+18:09:38 |     stdout | Flat is better than nested.
+18:09:38 |     stdout | Sparse is better than dense.
+18:09:38 |     stdout | Readability counts.
+18:09:38 |     stdout | Special cases aren't special enough to break the rules.
+18:09:38 |     stdout | Although practicality beats purity.
+18:09:38 |     stdout | Errors should never pass silently.
+18:09:38 |     stdout | Unless explicitly silenced.
+18:09:38 |     stdout | In the face of ambiguity, refuse the temptation to guess.
+18:09:38 |     stdout | There should be one-- and preferably only one --obvious way to do it.
+18:09:38 |     stdout | Although that way may not be obvious at first unless you're Dutch.
+18:09:38 |     stdout | Now is better than never.
+18:09:38 |     stdout | Although never is often better than *right* now.
+18:09:38 |     stdout | If the implementation is hard to explain, it's a bad idea.
+18:09:38 |     stdout | If the implementation is easy to explain, it may be a good idea.
+18:09:38 |     stdout | Namespaces are one honking great idea -- let's do more of those!
+18:09:38 |     stdout | corpus: 856 chars, vocabulary 45
+18:09:38 |     stdout | step    0  loss 3.825  (5.52 bits/char)
+18:09:38 |     stdout | step  100  loss 0.128  (0.18 bits/char)
+18:09:38 |     stdout | step  200  loss 0.097  (0.14 bits/char)
+18:09:38 |     stdout | step  300  loss 0.085  (0.12 bits/char)
+18:09:38 |     stdout | step  400  loss 0.067  (0.10 bits/char)
+18:09:38 |     stdout | step  500  loss 0.065  (0.09 bits/char)
+18:09:38 |     stdout | 18:09:38 | INFO | char_lm_training took 27.94s
+18:09:38 |     stdout | uniform baseline: 3.807 nats; final loss 0.066
+18:09:38 |     stdout |   ✅ char-LM loss is less than half of the uniform baseline
+18:09:38 |     stdout | 18:09:38 | INFO | figure saved -> figures/char_lm_loss.png
+18:09:38 |     [figure rendered]
+18:09:38 |     stdout | --- temperature 0.5 ---
+18:09:38 |     stdout | Beautiful is better than ugly.
+18:09:38 |     stdout | Explicit is better than implicit.
+18:09:38 |     stdout | Simple is better than complex.
+18:09:38 |     stdout | Complex is better than complicated.
+18:09:38 |     stdout | Flat is better than nested.
+18:09:38 |     stdout | Sparse is better than dense.
+18:09:38 |     stdout | Readability counts.
+18:09:38 |     stdout | 
+18:09:38 |     stdout | 
+18:09:38 |     stdout | --- temperature 1.0 ---
+18:09:38 |     stdout | Beautiful is better than ugly.
+18:09:38 |     stdout | Explicit is better than implicit.
+18:09:38 |     stdout | Simple is better than complex.
+18:09:38 |     stdout | Complex is better than complicated.
+18:09:38 |     stdout | Flat is better than nested.
+18:09:38 |     stdout | Sparse is better than dense.
+18:09:38 |     stdout | Readability counts.
+18:09:38 | [cell 17/19] START  rnn = nn.LSTM(10, 16, num_layers=3, bidirectional=True, batch_first=True); x = torch.randn
+18:09:38 | [cell 17/19] DONE in 0.01s
+18:09:38 |     stdout | output: (4, 7, 32)  h_n: (6, 4, 16)
+18:09:38 |     stdout |   ✅ output (B,T,2H); h_n (layers·dirs, B, H)
+18:09:38 | [cell 18/19] START  save_metrics("12", METRICS)
+18:09:38 | [cell 18/19] DONE in 0.01s
+18:09:38 |     stdout | 18:09:38 | INFO | metrics saved -> metrics.json
+18:09:38 |     stdout | 18:09:38 | INFO | notebook 12 finished OK
+18:09:40 | wrote 12_rnn_lstm_gru.html
+18:09:40 | === SUCCESS in 109.5s ===
