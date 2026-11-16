@@ -1,0 +1,123 @@
+18:15:21 | === running 14_transformer.ipynb ===
+18:15:21 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/14-transformer
+18:15:22 | [cell 03/20] START  import sys
+18:15:24 | [cell 03/20] DONE in 1.88s
+18:15:24 |     stdout | 18:15:23 | INFO | seed set to 42
+18:15:24 |     stdout |           python: 3.12.16
+18:15:24 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:15:24 |     stdout |        cpu_count: 4
+18:15:24 |     stdout |           ram_gb: 15.6
+18:15:24 |     stdout |            numpy: 2.5.5
+18:15:24 |     stdout |            scipy: 1.18.1
+18:15:24 |     stdout |          sklearn: 1.9.1
+18:15:24 |     stdout |       matplotlib: 3.11.2
+18:15:24 |     stdout |            torch: 2.15.0+cpu
+18:15:24 |     stdout |   cuda_available: False
+18:15:24 |     stdout |   github_actions: True
+18:15:24 |     stdout |           run_id: 43926753532
+18:15:24 |     stdout |           commit: a4aa24e57dfd9f88471149adff810366178f90be
+18:15:24 | [cell 05/20] START  def attention(Q, K, V, mask=None):
+18:15:24 | [cell 05/20] DONE in 0.01s
+18:15:24 |     stdout | scores/√2 =
+18:15:24 |     stdout |  [[0.7071 0.7071]
+18:15:24 |     stdout |  [0.     0.7071]]
+18:15:24 |     stdout | P =
+18:15:24 |     stdout |  [[0.5    0.5   ]
+18:15:24 |     stdout |  [0.3302 0.6698]]
+18:15:24 |     stdout | output =
+18:15:24 |     stdout |  [[2.     3.    ]
+18:15:24 |     stdout |  [2.3395 3.3395]]
+18:15:24 |     stdout |   ✅ row 0: scores (1,1)/√2 are equal -> weights (.5,.5)
+18:15:24 |     stdout |   ✅ row 0 output = average of the two value vectors (2,3)
+18:15:24 |     stdout |   ✅ attention weights are row-stochastic
+18:15:24 |     stdout |   ✅ matches torch.nn.functional.scaled_dot_product_attention
+18:15:24 | [cell 07/20] START  rng = np.random.default_rng(0)
+18:15:24 | [cell 07/20] DONE in 0.57s
+18:15:24 |     stdout | d_k=    4: var(q·k) =       4.0 (theory 4)  var(q·k/√d) = 1.00
+18:15:24 |     stdout |   ✅ d_k=4: variance d -> 1 after scaling
+18:15:24 |     stdout | d_k=   64: var(q·k) =      64.5 (theory 64)  var(q·k/√d) = 1.01
+18:15:24 |     stdout |   ✅ d_k=64: variance d -> 1 after scaling
+18:15:24 |     stdout | d_k= 1024: var(q·k) =    1023.5 (theory 1024)  var(q·k/√d) = 1.00
+18:15:24 |     stdout |   ✅ d_k=1024: variance d -> 1 after scaling
+18:15:24 |     stdout | mean max attention weight (unscaled, scaled): {4: (np.float64(0.37), np.float64(0.17)), 64: (np.float64(0.82), np.float64(0.17)), 1024: (np.float64(0.96), np.float64(0.16))}
+18:15:24 |     stdout |   ✅ d_k=1024: unscaled softmax is near one-hot; scaled stays soft
+18:15:24 | [cell 09/20] START  T, d = 6, 8; X = rng.normal(size=(T, d)); causal = np.tril(np.ones((T, T), bool))
+18:15:24 | [cell 09/20] DONE in 0.19s
+18:15:24 |     stdout |   ✅ causal weights above the diagonal are exactly 0
+18:15:24 |     stdout |   ✅ editing future tokens leaves earlier outputs unchanged
+18:15:24 |     stdout |   ✅ padding mask: padded keys get zero weight
+18:15:24 |     stdout | 18:15:24 | INFO | figure saved -> figures/attention_masks.png
+18:15:24 |     [figure rendered]
+18:15:24 | [cell 11/20] START  perm = rng.permutation(T); o_a, _ = self_attn(X); o_b, _ = self_attn(X[perm])
+18:15:24 | [cell 11/20] DONE in 0.00s
+18:15:24 |     stdout |   ✅ self-attention is permutation-equivariant: f(ΠX) = Πf(X)
+18:15:24 |     stdout |   ✅ with a causal mask equivariance is broken (order matters)
+18:15:24 | [cell 13/20] START  class MHA(nn.Module):
+18:15:24 | [cell 13/20] DONE in 0.01s
+18:15:24 |     stdout |   ✅ our MHA == nn.MultiheadAttention (no mask)
+18:15:24 |     stdout |   ✅ our MHA == nn.MultiheadAttention (causal)
+18:15:24 |     stdout | shapes: qkv (3, 10, 96) -> heads (B,h,T,dk) = (3, 4, 10, 8) -> out (3, 10, 32)
+18:15:24 | [cell 14/20] START  class Block(nn.Module):                                   # pre-LN Transformer block
+18:15:24 | [cell 14/20] DONE in 0.01s
+18:15:24 |     stdout |   ✅ block preserves shape (B,T,d)
+18:15:24 |     stdout | parameters in one block: 49984  formula 12d²+13d = 49984
+18:15:24 |     stdout |   ✅ block parameters = 12d² + 13d (attention 4d², FFN 8d²)
+18:15:24 | [cell 16/20] START  import time
+18:15:25 | [cell 16/20] DONE in 0.54s
+18:15:25 |     stdout | T=  128:      0.1 ms
+18:15:25 |     stdout | T=  256:      0.3 ms
+18:15:25 |     stdout | T=  512:      0.7 ms
+18:15:25 |     stdout | T= 1024:     11.2 ms
+18:15:25 |     stdout | T= 2048:     48.1 ms
+18:15:25 |     stdout | empirical scaling exponent (large T): 3.01
+18:15:25 |     stdout | 18:15:25 | INFO | figure saved -> figures/attention_cost.png
+18:15:25 |     [figure rendered]
+18:15:25 |     stdout |   ✅ attention time grows super-linearly with T
+18:15:25 | [cell 18/20] START  import codecs, this
+18:15:45 | [cell 18/20] DONE in 19.76s
+18:15:45 |     stdout | The Zen of Python, by Tim Peters
+18:15:45 |     stdout | 
+18:15:45 |     stdout | Beautiful is better than ugly.
+18:15:45 |     stdout | Explicit is better than implicit.
+18:15:45 |     stdout | Simple is better than complex.
+18:15:45 |     stdout | Complex is better than complicated.
+18:15:45 |     stdout | Flat is better than nested.
+18:15:45 |     stdout | Sparse is better than dense.
+18:15:45 |     stdout | Readability counts.
+18:15:45 |     stdout | Special cases aren't special enough to break the rules.
+18:15:45 |     stdout | Although practicality beats purity.
+18:15:45 |     stdout | Errors should never pass silently.
+18:15:45 |     stdout | Unless explicitly silenced.
+18:15:45 |     stdout | In the face of ambiguity, refuse the temptation to guess.
+18:15:45 |     stdout | There should be one-- and preferably only one --obvious way to do it.
+18:15:45 |     stdout | Although that way may not be obvious at first unless you're Dutch.
+18:15:45 |     stdout | Now is better than never.
+18:15:45 |     stdout | Although never is often better than *right* now.
+18:15:45 |     stdout | If the implementation is hard to explain, it's a bad idea.
+18:15:45 |     stdout | If the implementation is easy to explain, it may be a good idea.
+18:15:45 |     stdout | Namespaces are one honking great idea -- let's do more of those!
+18:15:45 |     stdout | GPT parameters: 346,176
+18:15:45 |     stdout | step    0 loss 59.385
+18:15:45 |     stdout | step  100 loss 1.879
+18:15:45 |     stdout | step  200 loss 0.708
+18:15:45 |     stdout | step  300 loss 0.151
+18:15:45 |     stdout | step  400 loss 0.083
+18:15:45 |     stdout | 18:15:44 | INFO | gpt_training took 18.05s
+18:15:45 |     stdout | final loss 0.090 vs uniform 3.807
+18:15:45 |     stdout | 18:15:44 | INFO | figure saved -> figures/gpt_loss.png
+18:15:45 |     [figure rendered]
+18:15:45 |     stdout |   ✅ GPT loss is below half the uniform baseline
+18:15:45 |     stdout |   ✅ model-level causality: logits at positions <20 ignore edits at positions ≥20
+18:15:45 |     stdout | Errors should never pass silently.
+18:15:45 |     stdout | Unless explicitly silenced.
+18:15:45 |     stdout | In e e eace of of ambiguity, refuse the fusemptate fus ate to be obve reak the rules.
+18:15:45 |     stdout | Although.
+18:15:45 |     stdout | Now
+18:15:45 |     stdout | 18:15:45 | INFO | figure saved -> figures/gpt_attention_heads.png
+18:15:45 |     [figure rendered]
+18:15:45 | [cell 19/20] START  save_metrics("14", METRICS)
+18:15:45 | [cell 19/20] DONE in 0.00s
+18:15:45 |     stdout | 18:15:45 | INFO | metrics saved -> metrics.json
+18:15:45 |     stdout | 18:15:45 | INFO | notebook 14 finished OK
+18:15:46 | wrote 14_transformer.html
+18:15:46 | === SUCCESS in 25.0s ===
