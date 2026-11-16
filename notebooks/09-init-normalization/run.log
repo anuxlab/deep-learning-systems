@@ -1,0 +1,85 @@
+16:30:36 | === running 09_init_normalization.ipynb ===
+16:30:36 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/09-init-normalization
+16:30:37 | [cell 03/19] START  import sys
+16:30:40 | [cell 03/19] DONE in 2.49s
+16:30:40 |     stdout | 16:30:39 | INFO | seed set to 42
+16:30:40 |     stdout |           python: 3.12.16
+16:30:40 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:30:40 |     stdout |        cpu_count: 4
+16:30:40 |     stdout |           ram_gb: 15.6
+16:30:40 |     stdout |            numpy: 2.5.5
+16:30:40 |     stdout |            scipy: 1.18.1
+16:30:40 |     stdout |          sklearn: 1.9.1
+16:30:40 |     stdout |       matplotlib: 3.11.2
+16:30:40 |     stdout |            torch: 2.15.0+cpu
+16:30:40 |     stdout |   cuda_available: False
+16:30:40 |     stdout |   github_actions: True
+16:30:40 |     stdout |           run_id: 43908074938
+16:30:40 |     stdout |           commit: 9d77658cc172e24db5f15aaa169fa5b35a9bd115
+16:30:40 | [cell 05/19] START  torch.manual_seed(0)
+16:30:41 | [cell 05/19] DONE in 1.10s
+16:30:41 |     stdout | constant init -> max difference between hidden units' weights after training: 0.00e+00
+16:30:41 |     stdout |   ✅ constant init: hidden units remain exact clones (symmetry never broken)
+16:30:41 |     stdout | random   init -> max difference between hidden units' weights after training: 1.98e+00
+16:30:41 |     stdout |   ✅ random init: units differentiate
+16:30:41 | [cell 07/19] START  def forward_stats(act, std_fn, depth=50, width=512, seed=0):
+16:30:42 | [cell 07/19] DONE in 1.22s
+16:30:42 |     stdout | 16:30:42 | INFO | figure saved -> figures/init_forward_variance.png
+16:30:42 |     [figure rendered]
+16:30:42 |     stdout | tanh, std=0.01 (too small)   std after layer 50: 4.910e-33
+16:30:42 |     stdout | tanh, std=0.1 (saturating)   std after layer 50: 7.689e-01
+16:30:42 |     stdout | tanh, std=1 (saturated)      std after layer 50: 9.818e-01
+16:30:42 |     stdout | tanh, Xavier 1/√n            std after layer 50: 9.698e-02
+16:30:42 |     stdout | ReLU, Xavier 1/√n            std after layer 50: 1.845e-08
+16:30:42 |     stdout | ReLU, He √(2/n)              std after layer 50: 6.189e-01
+16:30:42 |     stdout |   ✅ tiny init -> signal vanishes
+16:30:42 |     stdout | (tanh is bounded, so 'too big' shows up as saturation at ±1 — where tanh' ≈ 0 and gradients die — rather than as overflow.)
+16:30:42 |     stdout |   ✅ Xavier keeps tanh activations alive at depth 50
+16:30:42 |     stdout |   ✅ He keeps ReLU stable; Xavier's 1/√n halves variance each layer
+16:30:42 | [cell 09/19] START  def grad_profile(std_fn, depth=30, width=256, seed=0):
+16:30:42 | [cell 09/19] DONE in 0.58s
+16:30:42 |     stdout | 16:30:42 | INFO | figure saved -> figures/init_backward_grad.png
+16:30:42 |     [figure rendered]
+16:30:42 |     stdout |   ✅ bad init: gradient vanishes towards the input layers
+16:30:42 |     stdout |   ✅ He init: gradient norm stays within two orders of magnitude
+16:30:42 | [cell 11/19] START  class MyBN:
+16:30:42 | [cell 11/19] DONE in 0.01s
+16:30:42 |     stdout |   ✅ train-mode output matches torch (iteration 0)
+16:30:42 |     stdout |   ✅ train-mode output matches torch (iteration 1)
+16:30:42 |     stdout |   ✅ train-mode output matches torch (iteration 2)
+16:30:42 |     stdout |   ✅ train-mode output matches torch (iteration 3)
+16:30:42 |     stdout |   ✅ train-mode output matches torch (iteration 4)
+16:30:42 |     stdout |   ✅ running mean/var match torch
+16:30:42 |     stdout |   ✅ eval-mode output matches torch (uses running stats)
+16:30:42 |     stdout |   ✅ BN output has mean 0 and std 1 per feature
+16:30:42 | [cell 13/19] START  def norm_axes(x, axes, eps=1e-5): mu = x.mean(axes, keepdims=True); v = x.var(axes, keepdi
+16:30:43 | [cell 13/19] DONE in 0.66s
+16:30:43 |     stdout |   ✅ BatchNorm axes (N,H,W)
+16:30:43 |     stdout |   ✅ LayerNorm axes (C,H,W)
+16:30:43 |     stdout |   ✅ InstanceNorm axes (H,W)
+16:30:43 |     stdout |   ✅ GroupNorm (3 groups)
+16:30:43 |     stdout |   ✅ RMSNorm matches torch.nn.RMSNorm
+16:30:43 |     stdout | 16:30:43 | INFO | figure saved -> figures/bn_batch_noise.png
+16:30:43 |     [figure rendered]
+16:30:43 |     stdout |   ✅ batch size 2 gives ≫ noisier statistics than 128 — why GroupNorm/LayerNorm are used for small batches
+16:30:43 | [cell 15/19] START  def deep_grads(residual, depth=40, width=64, seed=0):
+16:30:44 | [cell 15/19] DONE in 0.45s
+16:30:44 |     stdout | 16:30:43 | INFO | figure saved -> figures/residual_gradient_flow.png
+16:30:44 |     [figure rendered]
+16:30:44 |     stdout | plain: first/last grad ratio = 0.00e+00;  residual: 6.41e+00
+16:30:44 |     stdout |   ✅ plain net's gradient vanishes toward the input; residual's does not
+16:30:44 | [cell 17/19] START  from sklearn.datasets import load_digits
+16:30:54 | [cell 17/19] DONE in 10.08s
+16:30:54 |     stdout | plain        params= 88,010  final train loss=2.3012  test acc=0.078
+16:30:54 |     stdout | batchnorm    params= 90,570  final train loss=0.0702  test acc=0.970
+16:30:54 |     stdout | residual+LN  params= 90,570  final train loss=0.0013  test acc=0.974
+16:30:54 |     stdout | 16:30:53 | INFO | figure saved -> figures/deep_mlp_training.png
+16:30:54 |     [figure rendered]
+16:30:54 |     stdout |   ✅ residual+LayerNorm trains far better than the plain deep net
+16:30:54 |     stdout |   ✅ BatchNorm also rescues the plain network
+16:30:54 | [cell 18/19] START  save_metrics("09", METRICS)
+16:30:54 | [cell 18/19] DONE in 0.01s
+16:30:54 |     stdout | 16:30:54 | INFO | metrics saved -> metrics.json
+16:30:54 |     stdout | 16:30:54 | INFO | notebook 09 finished OK
+16:30:55 | wrote 09_init_normalization.html
+16:30:55 | === SUCCESS in 18.9s ===
