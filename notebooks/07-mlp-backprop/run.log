@@ -1,0 +1,68 @@
+16:14:07 | === running 07_mlp_backprop.ipynb ===
+16:14:07 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/07-mlp-backprop
+16:14:07 | [cell 03/17] START  import sys
+16:14:09 | [cell 03/17] DONE in 2.06s
+16:14:09 |     stdout | 16:14:08 | INFO | seed set to 42
+16:14:09 |     stdout |           python: 3.12.16
+16:14:09 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+16:14:09 |     stdout |        cpu_count: 4
+16:14:09 |     stdout |           ram_gb: 15.6
+16:14:09 |     stdout |            numpy: 2.5.5
+16:14:09 |     stdout |            scipy: 1.18.1
+16:14:09 |     stdout |          sklearn: 1.9.1
+16:14:09 |     stdout |       matplotlib: 3.11.2
+16:14:09 |     stdout |            torch: 2.15.0+cpu
+16:14:09 |     stdout |   cuda_available: False
+16:14:09 |     stdout |   github_actions: True
+16:14:09 |     stdout |           run_id: 43905072217
+16:14:09 |     stdout |           commit: b01a9783769e1190f41f107db215f8300e78b79c
+16:14:09 | [cell 05/17] START  class MLP:
+16:14:09 | [cell 05/17] DONE in 0.01s
+16:14:09 |     stdout | MLP class defined
+16:14:09 | [cell 07/17] START  def grad_check(net, X, Y, h=1e-6):
+16:14:09 | [cell 07/17] DONE in 0.03s
+16:14:09 |     stdout |   ✅ hidden=tanh     head=softmax  relative gradient error = 8.10e-10
+16:14:09 |     stdout |   ✅ hidden=tanh     head=sigmoid  relative gradient error = 1.95e-09
+16:14:09 |     stdout |   ✅ hidden=tanh     head=linear   relative gradient error = 6.27e-10
+16:14:09 |     stdout |   ✅ hidden=relu     head=softmax  relative gradient error = 7.40e-10
+16:14:09 |     stdout |   ✅ hidden=relu     head=sigmoid  relative gradient error = 6.29e-10
+16:14:09 |     stdout |   ✅ hidden=relu     head=linear   relative gradient error = 5.23e-10
+16:14:09 |     stdout |   ✅ hidden=sigmoid  head=softmax  relative gradient error = 1.20e-08
+16:14:09 |     stdout |   ✅ hidden=sigmoid  head=sigmoid  relative gradient error = 1.28e-08
+16:14:09 |     stdout |   ✅ hidden=sigmoid  head=linear   relative gradient error = 7.92e-09
+16:14:09 | [cell 09/17] START  Xx = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], float); Yx = np.array([[0], [1], [1], [0]]
+16:14:10 | [cell 09/17] DONE in 0.59s
+16:14:10 |     stdout | XOR predictions: [0.    0.999 0.999 0.001]  loss: 0.00077
+16:14:10 |     stdout |   ✅ MLP solves XOR
+16:14:10 |     stdout | 16:14:10 | INFO | figure saved -> figures/xor_mlp.png
+16:14:10 |     [figure rendered]
+16:14:10 | [cell 11/17] START  from sklearn.datasets import make_moons
+16:14:11 | [cell 11/17] DONE in 1.27s
+16:14:11 |     stdout | two moons test accuracy: 0.9555555555555556
+16:14:11 |     stdout |   ✅ two-moons accuracy > 93%
+16:14:11 |     stdout | 16:14:10 | INFO | figure saved -> figures/moons_numpy.png
+16:14:11 |     [figure rendered]
+16:14:11 |     stdout | regression MSE vs the true sine: 0.00933
+16:14:11 |     stdout |   ✅ regression recovers the underlying sine (MSE well below the signal variance 0.5)
+16:14:11 |     stdout | 16:14:11 | INFO | figure saved -> figures/regression_numpy.png
+16:14:11 |     [figure rendered]
+16:14:11 | [cell 13/17] START  net_np = MLP([4, 6, 3], act="tanh", out="softmax", seed=5)
+16:14:11 | [cell 13/17] DONE in 0.01s
+16:14:11 |     stdout |   ✅ forward losses agree
+16:14:11 |     stdout |   ✅ layer 1: ∂L/∂W  NumPy backprop == torch autograd
+16:14:11 |     stdout |   ✅ layer 1: ∂L/∂b  NumPy backprop == torch autograd
+16:14:11 |     stdout |   ✅ layer 2: ∂L/∂W  NumPy backprop == torch autograd
+16:14:11 |     stdout |   ✅ layer 2: ∂L/∂b  NumPy backprop == torch autograd
+16:14:11 | [cell 15/17] START  Xt, Xv = torch.tensor(Xtr, dtype=torch.float32), torch.tensor(Xte, dtype=torch.float32); y
+16:14:13 | [cell 15/17] DONE in 2.02s
+16:14:13 |     stdout | parameters: 354
+16:14:13 |     stdout | torch test accuracy: 0.9611111283302307
+16:14:13 |     stdout |   ✅ PyTorch MLP reaches > 93% accuracy
+16:14:13 |     stdout | tiny-batch final loss: 0.0007493699667975307
+16:14:13 |     stdout |   ✅ model can overfit 16 samples (pipeline sanity check passes)
+16:14:13 | [cell 16/17] START  save_metrics("07", METRICS)
+16:14:13 | [cell 16/17] DONE in 0.01s
+16:14:13 |     stdout | 16:14:13 | INFO | metrics saved -> metrics.json
+16:14:13 |     stdout | 16:14:13 | INFO | notebook 07 finished OK
+16:14:15 | wrote 07_mlp_backprop.html
+16:14:15 | === SUCCESS in 8.2s ===
