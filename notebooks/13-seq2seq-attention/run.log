@@ -1,0 +1,88 @@
+18:12:31 | === running 13_seq2seq_attention.ipynb ===
+18:12:31 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/13-seq2seq-attention
+18:12:32 | [cell 03/17] START  import sys
+18:12:35 | [cell 03/17] DONE in 3.21s
+18:12:35 |     stdout | 18:12:34 | INFO | seed set to 42
+18:12:35 |     stdout |           python: 3.12.16
+18:12:35 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:12:35 |     stdout |        cpu_count: 4
+18:12:35 |     stdout |           ram_gb: 15.6
+18:12:35 |     stdout |            numpy: 2.5.5
+18:12:35 |     stdout |            scipy: 1.18.1
+18:12:35 |     stdout |          sklearn: 1.9.1
+18:12:35 |     stdout |       matplotlib: 3.11.2
+18:12:35 |     stdout |            torch: 2.15.0+cpu
+18:12:35 |     stdout |   cuda_available: False
+18:12:35 |     stdout |   github_actions: True
+18:12:35 |     stdout |           run_id: 43926170138
+18:12:35 |     stdout |           commit: a4aa24e57dfd9f88471149adff810366178f90be
+18:12:35 | [cell 05/17] START  H = np.array([[1., 0.], [0., 1.], [1., 1.]]); q = np.array([2., 0.])
+18:12:35 | [cell 05/17] DONE in 0.01s
+18:12:35 |     stdout | scores e = [2. 0. 2.]
+18:12:35 |     stdout | weights α = [0.4683 0.0634 0.4683]  sum = 1.0
+18:12:35 |     stdout | context c = [0.9366 0.5317]
+18:12:35 |     stdout |   ✅ weights form a distribution, peaking on keys aligned with q
+18:12:35 |     stdout |   ✅ hand-calculable: scores (2,0,2) -> equal weights on states 1 and 3
+18:12:35 |     stdout | max weight, unscaled dot: 1.0 | scaled dot: 0.992
+18:12:35 |     stdout |   ✅ scaling by 1/√d softens an over-peaked softmax
+18:12:35 | [cell 07/17] START  PAD, BOS, EOS, OFF = 0, 1, 2, 3; V = 13
+18:12:35 | [cell 07/17] DONE in 0.01s
+18:12:35 |     stdout | src:
+18:12:35 |     stdout |  [[ 5  6  3  3  3  4 11  9]
+18:12:35 |     stdout |  [12  8  9 12 10  9  0  0]
+18:12:35 |     stdout |  [ 8  8 12  5 11  9  0  0]] 
+18:12:35 |     stdout | decoder input (BOS+target):
+18:12:35 |     stdout |  [[ 1  9 11  4  3  3  3  6  5]
+18:12:35 |     stdout |  [ 1  9 10 12  9  8 12  0  0]
+18:12:35 |     stdout |  [ 1  9 11  5 12  8  8  0  0]] 
+18:12:35 |     stdout | target (+EOS):
+18:12:35 |     stdout |  [[ 9 11  4  3  3  3  6  5  2]
+18:12:35 |     stdout |  [ 9 10 12  9  8 12  2  0  0]
+18:12:35 |     stdout |  [ 9 11  5 12  8  8  2  0  0]]
+18:12:35 |     stdout |   ✅ target is the reversed source
+18:12:35 | [cell 09/17] START  class Seq2Seq(nn.Module):
+18:12:35 | [cell 09/17] DONE in 0.01s
+18:12:35 |     stdout | model classes ready
+18:12:35 | [cell 11/17] START  def train(attn, steps=1200, Lmax=12, seed=0):
+18:14:56 | [cell 11/17] DONE in 140.97s
+18:14:56 |     stdout |   [none    ] step    0 loss 2.570
+18:14:56 |     stdout |   [none    ] step  300 loss 0.367
+18:14:56 |     stdout |   [none    ] step  600 loss 0.297
+18:14:56 |     stdout |   [none    ] step  900 loss 0.239
+18:14:56 |     stdout |   [additive] step    0 loss 2.564
+18:14:56 |     stdout |   [additive] step  300 loss 0.013
+18:14:56 |     stdout |   [additive] step  600 loss 0.005
+18:14:56 |     stdout |   [additive] step  900 loss 0.001
+18:14:56 |     stdout |   [dot     ] step    0 loss 2.564
+18:14:56 |     stdout |   [dot     ] step  300 loss 0.023
+18:14:56 |     stdout |   [dot     ] step  600 loss 0.012
+18:14:56 |     stdout |   [dot     ] step  900 loss 0.025
+18:14:56 |     stdout | 18:14:55 | INFO | seq2seq_training took 139.90s
+18:14:56 |     stdout | none      exact-match by length bin [(3, 5), (6, 8), (9, 12), (13, 16)]: [0.996 0.86  0.276 0.01 ]
+18:14:56 |     stdout | additive  exact-match by length bin [(3, 5), (6, 8), (9, 12), (13, 16)]: [1.    0.988 0.966 0.816]
+18:14:56 |     stdout | dot       exact-match by length bin [(3, 5), (6, 8), (9, 12), (13, 16)]: [0.996 0.988 0.98  0.73 ]
+18:14:56 |     stdout | 18:14:56 | INFO | figure saved -> figures/seq2seq_accuracy.png
+18:14:56 |     [figure rendered]
+18:14:56 |     stdout |   ✅ attention beats the fixed-context model on medium-length sequences
+18:14:56 |     stdout |   ✅ attention models are accurate on short sequences
+18:14:56 | [cell 13/17] START  m = models["additive"]; m.eval(); src, tin, tgt = gen(1, 8, 8, np.random.default_rng(7)); 
+18:14:57 | [cell 13/17] DONE in 0.35s
+18:14:57 |     stdout | 18:14:57 | INFO | figure saved -> figures/attention_alignment.png
+18:14:57 |     [figure rendered]
+18:14:57 |     stdout | mean attention mass on the correct (anti-diagonal) source token: 0.93
+18:14:57 |     stdout |   ✅ each row of the alignment matrix sums to 1
+18:14:57 |     stdout |   ✅ attention concentrates on the anti-diagonal (≫ uniform 1/8 = 0.125)
+18:14:57 | [cell 15/17] START  @torch.no_grad()
+18:14:57 | [cell 15/17] DONE in 0.05s
+18:14:57 |     stdout | target : [4, 7, 3, 10, 9, 8, 7, 10, 4, 4, 2]
+18:14:57 |     stdout | greedy : [4, 7, 3, 10, 9, 8, 7, 10, 4, 4, 2]
+18:14:57 |     stdout | beam k=1 (-0.017): [4, 7, 3, 10, 9, 8, 7, 10, 4, 4, 2]
+18:14:57 |     stdout | beam k=4 (-0.017): [4, 7, 3, 10, 9, 8, 7, 10, 4, 4, 2]
+18:14:57 |     stdout |   ✅ beam search with k=1 reproduces greedy decoding
+18:14:57 |     stdout |   ✅ k=4 finds a sequence with log-probability ≥ greedy's
+18:14:57 | [cell 16/17] START  save_metrics("13", METRICS)
+18:14:57 | [cell 16/17] DONE in 0.01s
+18:14:57 |     stdout | 18:14:57 | INFO | metrics saved -> metrics.json
+18:14:57 |     stdout | 18:14:57 | INFO | notebook 13 finished OK
+18:14:59 | wrote 13_seq2seq_attention.html
+18:14:59 | === SUCCESS in 147.3s ===
