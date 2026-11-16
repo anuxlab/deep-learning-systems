@@ -1,0 +1,75 @@
+18:16:10 | === running 18_vae.ipynb ===
+18:16:10 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/18-vae
+18:16:11 | [cell 03/17] START  import sys
+18:16:14 | [cell 03/17] DONE in 2.86s
+18:16:14 |     stdout | 18:16:13 | INFO | seed set to 42
+18:16:14 |     stdout |           python: 3.12.16
+18:16:14 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:16:14 |     stdout |        cpu_count: 4
+18:16:14 |     stdout |           ram_gb: 15.6
+18:16:14 |     stdout |            numpy: 2.5.5
+18:16:14 |     stdout |            scipy: 1.18.1
+18:16:14 |     stdout |          sklearn: 1.9.1
+18:16:14 |     stdout |       matplotlib: 3.11.2
+18:16:14 |     stdout |            torch: 2.15.0+cpu
+18:16:14 |     stdout |   cuda_available: False
+18:16:14 |     stdout |   github_actions: True
+18:16:14 |     stdout |           run_id: 43926845498
+18:16:14 |     stdout |           commit: 30206410b37c093a0d326d94f81e5fd7c94a76ce
+18:16:14 | [cell 05/17] START  from scipy import stats
+18:16:14 | [cell 05/17] DONE in 0.01s
+18:16:14 |     stdout | log p(x) = -2.17708
+18:16:14 |     stdout | ELBO with the TRUE posterior q=N(1.200,0.100): -2.17708
+18:16:14 |     stdout |   ✅ ELBO equals log p(x) when q is the exact posterior
+18:16:14 |     stdout | q=N(0.00,1.00): ELBO -12.7258  gap logp-ELBO 10.5487  KL(q||posterior) 10.5487
+18:16:14 |     stdout |   ✅ gap = KL(q || true posterior)  — the ELBO identity holds
+18:16:14 |     stdout | q=N(0.50,0.30): ELBO -5.0778  gap logp-ELBO 2.9007  KL(q||posterior) 2.9007
+18:16:14 |     stdout |   ✅ gap = KL(q || true posterior)  — the ELBO identity holds
+18:16:14 |     stdout | q=N(1.70,0.10): ELBO -3.4271  gap logp-ELBO 1.2500  KL(q||posterior) 1.2500
+18:16:14 |     stdout |   ✅ gap = KL(q || true posterior)  — the ELBO identity holds
+18:16:14 |     stdout | q=N(1.20,0.30): ELBO -2.6278  gap logp-ELBO 0.4507  KL(q||posterior) 0.4507
+18:16:14 |     stdout |   ✅ gap = KL(q || true posterior)  — the ELBO identity holds
+18:16:14 | [cell 07/17] START  mu, lv = torch.randn(6, 4), torch.randn(6, 4)
+18:16:14 | [cell 07/17] DONE in 0.04s
+18:16:14 |     stdout |   ✅ closed-form KL(q||N(0,I)) == torch.distributions
+18:16:14 |     stdout | pathwise grads: dm=2.599 (2μ=2.6)  ds=1.399 (2σ=1.4)
+18:16:14 |     stdout |   ✅ reparameterised gradients are unbiased
+18:16:14 |     stdout | direct sampling has no gradient path: False
+18:16:14 |     stdout |   ✅ naive sampling blocks gradients — hence reparameterisation
+18:16:14 | [cell 09/17] START  from sklearn.datasets import load_digits
+18:16:19 | [cell 09/17] DONE in 5.19s
+18:16:19 |     stdout | 18:16:18 | INFO | vae_beta1 took 4.46s
+18:16:19 |     stdout | test: recon 22.07 nats  KL 2.36 nats  -ELBO 24.44
+18:16:19 |     stdout |   ✅ negative ELBO decreases during training
+18:16:19 |     stdout | 18:16:19 | INFO | figure saved -> figures/vae_latent_space.png
+18:16:19 |     [figure rendered]
+18:16:19 | [cell 11/17] START  torch.manual_seed(3)
+18:16:19 | [cell 11/17] DONE in 0.49s
+18:16:19 |     stdout | 18:16:19 | INFO | figure saved -> figures/vae_samples.png
+18:16:19 |     [figure rendered]
+18:16:19 |     stdout | aggregate posterior mean/std per dim: [ 0.05 -0.03] [1.02 0.91]
+18:16:19 |     stdout |   ✅ aggregate posterior is roughly centred / unit-scale (matches the prior)
+18:16:19 | [cell 13/17] START  betas = [0.1, 1.0, 4.0, 16.0]; res = {}
+18:16:30 | [cell 13/17] DONE in 10.16s
+18:16:30 |     stdout | β=  0.1: recon  17.02  KL  13.77  active latent dims 8/8
+18:16:30 |     stdout | β=  1.0: recon  21.22  KL   3.12  active latent dims 5/8
+18:16:30 |     stdout | β=  4.0: recon  27.12  KL   0.00  active latent dims 0/8
+18:16:30 |     stdout | β= 16.0: recon  27.15  KL   0.00  active latent dims 0/8
+18:16:30 |     stdout | 18:16:29 | INFO | beta_sweep took 9.70s
+18:16:30 |     stdout | 18:16:29 | INFO | figure saved -> figures/beta_vae.png
+18:16:30 |     [figure rendered]
+18:16:30 |     stdout |   ✅ higher β: lower KL but worse reconstruction
+18:16:30 |     stdout |   ✅ higher β activates fewer latent units
+18:16:30 | [cell 15/17] START  from sklearn.neighbors import KNeighborsClassifier
+18:16:37 | [cell 15/17] DONE in 7.40s
+18:16:37 |     stdout | β=8, plain             test KL   0.00 nats   latent kNN acc 0.687
+18:16:37 |     stdout | β=8, KL-anneal 30ep    test KL   0.00 nats   latent kNN acc 0.488
+18:16:37 |     stdout | β=8, free bits 0.5     test KL   3.68 nats   latent kNN acc 0.946
+18:16:37 |     stdout | 18:16:37 | INFO | collapse_remedies took 7.33s
+18:16:37 |     stdout |   ✅ free bits keeps more information in the latent code (higher KL)
+18:16:37 | [cell 16/17] START  save_metrics("18", METRICS)
+18:16:37 | [cell 16/17] DONE in 0.01s
+18:16:37 |     stdout | 18:16:37 | INFO | metrics saved -> metrics.json
+18:16:37 |     stdout | 18:16:37 | INFO | notebook 18 finished OK
+18:16:39 | wrote 18_vae.html
+18:16:39 | === SUCCESS in 28.6s ===
