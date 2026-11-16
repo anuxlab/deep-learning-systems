@@ -1,0 +1,66 @@
+15:57:46 | === running 02_calculus_autodiff.ipynb ===
+15:57:46 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/02-calculus-autodiff
+15:57:47 | [cell 03/17] START  import sys
+15:57:49 | [cell 03/17] DONE in 2.22s
+15:57:49 |     stdout | 15:57:48 | INFO | seed set to 42
+15:57:49 |     stdout |           python: 3.12.16
+15:57:49 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+15:57:49 |     stdout |        cpu_count: 4
+15:57:49 |     stdout |           ram_gb: 15.6
+15:57:49 |     stdout |            numpy: 2.5.5
+15:57:49 |     stdout |            scipy: 1.18.1
+15:57:49 |     stdout |          sklearn: 1.9.1
+15:57:49 |     stdout |       matplotlib: 3.11.2
+15:57:49 |     stdout |            torch: 2.15.0+cpu
+15:57:49 |     stdout |   cuda_available: False
+15:57:49 |     stdout |   github_actions: True
+15:57:49 |     stdout |           run_id: 43901867187
+15:57:49 |     stdout |           commit: 91e223fc43e41a334729ca846bd3a2056f0611b5
+15:57:49 | [cell 05/17] START  f, fp = np.sin, np.cos
+15:57:49 | [cell 05/17] DONE in 0.41s
+15:57:49 |     stdout | 15:57:49 | INFO | figure saved -> figures/finite_difference_error.png
+15:57:49 |     [figure rendered]
+15:57:49 |     stdout | best forward h ≈ 1e-08  best central h ≈ 3.162277660168379e-06
+15:57:49 |     stdout |   ✅ central difference reaches a smaller error than forward
+15:57:49 | [cell 07/17] START  def f2(p): x, y = p; return x**2 + 3*y**2 + x*y
+15:57:50 | [cell 07/17] DONE in 0.21s
+15:57:50 |     stdout |   ✅ analytic gradient == central-difference gradient
+15:57:50 |     stdout | 15:57:49 | INFO | figure saved -> figures/gradient_field.png
+15:57:50 |     stderr | /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/_common/dlsys.py:105: UserWarning: Glyph 10178 (\N{PERPENDICULAR}) missing from font(s) DejaVu Sans.
+15:57:50 |     stderr |   plt.tight_layout()
+15:57:50 |     stderr | /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/_common/dlsys.py:106: UserWarning: Glyph 10178 (\N{PERPENDICULAR}) missing from font(s) DejaVu Sans.
+15:57:50 |     stderr |   plt.savefig(path, dpi=110, bbox_inches="tight")
+15:57:50 |     stderr | /opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 10178 (\N{PERPENDICULAR}) missing from font(s) DejaVu Sans.
+15:57:50 |     stderr |   fig.canvas.print_figure(bytes_io, **kw)
+15:57:50 |     [figure rendered]
+15:57:50 |     stdout |   ✅ moving along the tangent leaves f unchanged to first order
+15:57:50 | [cell 09/17] START  def F(z): r, th = z; return np.array([r*np.cos(th), r*np.sin(th)])
+15:57:50 | [cell 09/17] DONE in 0.57s
+15:57:50 |     stdout |   ✅ polar→Cartesian Jacobian matches finite differences
+15:57:50 |     stdout |   ✅ det J = r
+15:57:50 |     stdout | 15:57:50 | INFO | figure saved -> figures/taylor_orders.png
+15:57:50 |     [figure rendered]
+15:57:50 |     stdout | measured slopes: first-order 2.04, second-order 3.02
+15:57:50 |     stdout |   ✅ Taylor error orders are 2 and 3, as theory predicts
+15:57:50 | [cell 11/17] START  import math
+15:57:50 | [cell 11/17] DONE in 0.01s
+15:57:50 |     stdout | autodiff  : 0.38412207283111793 0.3186113765502948
+15:57:50 |     stdout | numerical : [0.38412207 0.31861138]
+15:57:50 |     stdout |   ✅ from-scratch autodiff == finite differences
+15:57:50 | [cell 13/17] START  xt = torch.tensor(0.7, dtype=torch.float64, requires_grad=True); yt = torch.tensor(-0.4, d
+15:57:50 | [cell 13/17] DONE in 0.01s
+15:57:50 |     stdout | torch grads: 0.38412207283111793 0.3186113765502948
+15:57:50 |     stdout |   ✅ our engine == torch.autograd
+15:57:50 | [cell 15/17] START  rng = np.random.default_rng(1)
+15:57:50 | [cell 15/17] DONE in 0.01s
+15:57:50 |     stdout |   ✅ ∇‖Ax−b‖² = 2Aᵀ(Ax−b)
+15:57:50 |     stdout |   ✅ dL/dW = Xᵀ·dL/dY verified
+15:57:50 |     stdout |   ✅ adjoints have the same shape as the primal variables
+15:57:50 |     stdout |   ✅ adjoint identity ⟨u, Jv⟩ = ⟨Jᵀu, v⟩
+15:57:50 |     stdout |   ✅ torch VJP == Jᵀu
+15:57:50 | [cell 16/17] START  save_metrics("02", METRICS)
+15:57:50 | [cell 16/17] DONE in 0.00s
+15:57:50 |     stdout | 15:57:50 | INFO | metrics saved -> metrics.json
+15:57:50 |     stdout | 15:57:50 | INFO | notebook 02 finished OK
+15:57:51 | wrote 02_calculus_autodiff.html
+15:57:51 | === SUCCESS in 5.1s ===
