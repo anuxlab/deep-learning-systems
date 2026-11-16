@@ -1,0 +1,76 @@
+15:59:27 | === running 03_probability_information.ipynb ===
+15:59:27 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/03-probability-information
+15:59:27 | [cell 03/19] START  import sys
+15:59:29 | [cell 03/19] DONE in 2.04s
+15:59:29 |     stdout | 15:59:29 | INFO | seed set to 42
+15:59:29 |     stdout |           python: 3.12.16
+15:59:29 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+15:59:29 |     stdout |        cpu_count: 4
+15:59:29 |     stdout |           ram_gb: 15.6
+15:59:29 |     stdout |            numpy: 2.5.5
+15:59:29 |     stdout |            scipy: 1.18.1
+15:59:29 |     stdout |          sklearn: 1.9.1
+15:59:29 |     stdout |       matplotlib: 3.11.2
+15:59:29 |     stdout |            torch: 2.15.0+cpu
+15:59:29 |     stdout |   cuda_available: False
+15:59:29 |     stdout |   github_actions: True
+15:59:29 |     stdout |           run_id: 43902312567
+15:59:29 |     stdout |           commit: ea9ecec1804760af0b0aade14a8ad3c6e1505150
+15:59:29 | [cell 05/19] START  sens, fpr, prev = 0.99, 0.05, 0.01
+15:59:29 | [cell 05/19] DONE in 0.01s
+15:59:29 |     stdout | analytic P(D|+) = 0.1667
+15:59:29 |     stdout | simulated P(D|+) = 0.1670  (from 59,176 positives)
+15:59:29 |     stdout |   ✅ simulation agrees with Bayes' theorem
+15:59:29 |     stdout |   ✅ posterior is far below sensitivity: base rates matter
+15:59:29 | [cell 07/19] START  from scipy import stats
+15:59:30 | [cell 07/19] DONE in 0.45s
+15:59:30 |     stdout | 15:59:30 | INFO | figure saved -> figures/distributions.png
+15:59:30 |     [figure rendered]
+15:59:30 |     stdout | KS statistic (normal samples vs normal CDF): 0.0101  p = 0.687
+15:59:30 |     stdout |   ✅ samples are consistent with the normal CDF
+15:59:30 | [cell 09/19] START  X = rng.normal(size=500_000); Y = 0.6 * X + 0.8 * rng.normal(size=X.size)
+15:59:30 | [cell 09/19] DONE in 0.03s
+15:59:30 |     stdout | Var(aX+bY) = 5.809659261281396  formula = 5.8096592612813955
+15:59:30 |     stdout |   ✅ variance-of-a-sum formula
+15:59:30 |     stdout | Cov(X, X²) = -0.0026531308997849545   but corr(|X|, X²) = 0.9357867292199887
+15:59:30 |     stdout |   ✅ uncorrelated (cov≈0) ...
+15:59:30 |     stdout |   ✅ ... yet strongly dependent: uncorrelated ≠ independent
+15:59:30 | [cell 11/19] START  rho = 0.8; cov = np.array([[1, rho], [rho, 1]])
+15:59:30 | [cell 11/19] DONE in 0.22s
+15:59:30 |     stdout | conditional mean 0.800 (theory 0.800),  variance 0.361 (theory 0.360)
+15:59:30 |     stdout |   ✅ conditional Gaussian formulas verified
+15:59:30 |     stdout | 15:59:30 | INFO | figure saved -> figures/bivariate_gaussian.png
+15:59:30 |     [figure rendered]
+15:59:30 | [cell 13/19] START  from scipy.optimize import minimize
+15:59:31 | [cell 13/19] DONE in 0.49s
+15:59:31 |     stdout | numerical MLE μ=2.9240 σ=1.5536 | closed form μ=2.9240 σ=1.5536
+15:59:31 |     stdout |   ✅ numerical MLE == closed-form MLE
+15:59:31 |     stdout | 15:59:31 | INFO | figure saved -> figures/monte_carlo.png
+15:59:31 |     [figure rendered]
+15:59:31 |     stdout | fitted slope: -0.492
+15:59:31 |     stdout |   ✅ MC error decays like n^(-1/2)
+15:59:31 | [cell 15/19] START  def H(p): p = p[p > 0]; return -(p * np.log(p)).sum()
+15:59:31 | [cell 15/19] DONE in 0.07s
+15:59:31 |     stdout | H(p)=1.5174 H(p,q)=2.2690 KL(p||q)=0.7517 KL(q||p)=0.6251
+15:59:31 |     stdout |   ✅ H(p,q) = H(p) + KL(p||q)
+15:59:31 |     stdout |   ✅ KL ≥ 0 (Gibbs' inequality)
+15:59:31 |     stdout |   ✅ KL is asymmetric
+15:59:31 |     stdout |   ✅ KL(p||p) = 0
+15:59:31 |     stdout |   ✅ entropy is maximised by the uniform distribution (= log n)
+15:59:31 |     stdout |   ✅ I(X;Y) = KL(p_XY || p_X p_Y) = H(X)+H(Y)-H(X,Y)
+15:59:31 |     stdout |   ✅ independent joint has zero mutual information
+15:59:31 |     stdout | Gaussian KL closed form 0.4431 vs Monte Carlo 0.4431
+15:59:31 |     stdout |   ✅ closed-form Gaussian KL matches Monte Carlo
+15:59:31 | [cell 17/19] START  def softmax_naive(z): e = np.exp(z); return e / e.sum()
+15:59:31 | [cell 17/19] DONE in 0.01s
+15:59:31 |     stdout | naive softmax : [nan nan nan]
+15:59:31 |     stdout | stable log-softmax: [-2.40760596 -1.40760596 -0.40760596]
+15:59:31 |     stdout |   ✅ log-sum-exp trick avoids overflow
+15:59:31 |     stdout | NLL (ours) 1.830359  torch cross_entropy 1.830359
+15:59:31 |     stdout |   ✅ cross-entropy loss == mean negative log-likelihood == torch
+15:59:31 | [cell 18/19] START  save_metrics("03", METRICS)
+15:59:31 | [cell 18/19] DONE in 0.00s
+15:59:31 |     stdout | 15:59:31 | INFO | metrics saved -> metrics.json
+15:59:31 |     stdout | 15:59:31 | INFO | notebook 03 finished OK
+15:59:32 | wrote 03_probability_information.html
+15:59:32 | === SUCCESS in 5.2s ===
