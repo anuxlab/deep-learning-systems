@@ -1,0 +1,74 @@
+18:16:03 | === running 16_autoencoders.ipynb ===
+18:16:03 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/16-autoencoders
+18:16:04 | [cell 03/19] START  import sys
+18:16:07 | [cell 03/19] DONE in 2.96s
+18:16:07 |     stdout | 18:16:05 | INFO | seed set to 42
+18:16:07 |     stdout |           python: 3.12.16
+18:16:07 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:16:07 |     stdout |        cpu_count: 4
+18:16:07 |     stdout |           ram_gb: 15.6
+18:16:07 |     stdout |            numpy: 2.5.5
+18:16:07 |     stdout |            scipy: 1.18.1
+18:16:07 |     stdout |          sklearn: 1.9.1
+18:16:07 |     stdout |       matplotlib: 3.11.2
+18:16:07 |     stdout |            torch: 2.15.0+cpu
+18:16:07 |     stdout |   cuda_available: False
+18:16:07 |     stdout |   github_actions: True
+18:16:07 |     stdout |           run_id: 43926805324
+18:16:07 |     stdout |           commit: a4aa24e57dfd9f88471149adff810366178f90be
+18:16:07 | [cell 05/19] START  from sklearn.datasets import load_digits
+18:16:07 | [cell 05/19] DONE in 0.06s
+18:16:07 |     stdout | train (1300, 64) test (497, 64)
+18:16:07 | [cell 07/19] START  from sklearn.decomposition import PCA
+18:16:12 | [cell 07/19] DONE in 5.77s
+18:16:12 |     stdout | test MSE  PCA(k=8): 0.02425   linear AE: 0.02431
+18:16:12 |     stdout | principal angles between PCA subspace and AE decoder subspace (deg): [2.  1.6 1.4 1.2 1.1 0.8 0.8 0.7]
+18:16:12 |     stdout |   ✅ linear AE reaches (almost) the PCA reconstruction error
+18:16:12 |     stdout |   ✅ the AE decoder spans (nearly) the PCA subspace
+18:16:12 | [cell 09/19] START  ks = [2, 4, 8, 16, 32]; mse_ae, mse_p = [], []
+18:16:25 | [cell 09/19] DONE in 12.79s
+18:16:25 |     stdout | k=  2  AE 0.03707  PCA 0.05310
+18:16:25 |     stdout | k=  4  AE 0.02251  PCA 0.03794
+18:16:25 |     stdout | k=  8  AE 0.01462  PCA 0.02425
+18:16:25 |     stdout | k= 16  AE 0.00743  PCA 0.01139
+18:16:25 |     stdout | k= 32  AE 0.00521  PCA 0.00266
+18:16:25 |     stdout | 18:16:22 | INFO | ae_bottleneck_sweep took 9.78s
+18:16:25 |     stdout | 18:16:23 | INFO | figure saved -> figures/ae_vs_pca.png
+18:16:25 |     [figure rendered]
+18:16:25 |     stdout |   ✅ at k=2 the non-linear AE reconstructs better than PCA
+18:16:25 |     stdout | 18:16:25 | INFO | figure saved -> figures/ae_reconstructions.png
+18:16:25 |     [figure rendered]
+18:16:25 | [cell 11/19] START  class SparseAE(nn.Module):
+18:16:29 | [cell 11/19] DONE in 4.10s
+18:16:29 |     stdout | λ=0.0: active units per sample 70.2%  test MSE 0.00016
+18:16:29 |     stdout | λ=0.02: active units per sample 32.6%  test MSE 0.00055
+18:16:29 |     stdout |   ✅ L1 penalty makes the code much sparser
+18:16:29 |     stdout | 18:16:29 | INFO | figure saved -> figures/sparse_ae_atoms.png
+18:16:29 |     [figure rendered]
+18:16:29 | [cell 13/19] START  dae = AE(32, hidden=128); fit(dae, plain_loss, epochs=80, noise=0.4); plain = AE(32, hidde
+18:16:34 | [cell 13/19] DONE in 4.52s
+18:16:34 |     stdout | MSE to clean image  noisy input: 0.0831  plain AE(noisy): 0.0605  denoising AE(noisy): 0.0244
+18:16:34 |     stdout |   ✅ denoising AE removes noise better than the noisy input or a plain AE
+18:16:34 |     stdout | 18:16:34 | INFO | figure saved -> figures/denoising_ae.png
+18:16:34 |     [figure rendered]
+18:16:34 | [cell 15/19] START  W_ = torch.randn(5, 64); b_ = torch.randn(5); x0 = torch.rand(64)
+18:16:37 | [cell 15/19] DONE in 2.99s
+18:16:37 |     stdout |   ✅ closed-form contractive penalty == ||Jacobian||_F² from autograd
+18:16:37 |     stdout | latent sensitivity to input noise:  contractive 0.0002   ordinary 0.1656
+18:16:37 |     stdout |   ✅ contractive penalty reduces latent sensitivity
+18:16:37 | [cell 17/19] START  from sklearn.linear_model import LogisticRegression
+18:16:47 | [cell 17/19] DONE in 9.89s
+18:16:47 |     stdout | 18:16:41 | INFO | figure saved -> figures/latent_2d.png
+18:16:47 |     [figure rendered]
+18:16:47 |     stdout | raw pixels (64)        linear probe 0.978   5-NN 0.982
+18:16:47 |     stdout | PCA-16                 linear probe 0.968   5-NN 0.992
+18:16:47 |     stdout | AE-16                  linear probe 0.964   5-NN 0.982
+18:16:47 |     stdout | random projection-16   linear probe 0.817   5-NN 0.924
+18:16:47 |     stdout |   ✅ learned 16-d code is better for kNN than a random 16-d projection
+18:16:47 |     stdout |   ✅ linear probe on the AE code exceeds 85%
+18:16:47 | [cell 18/19] START  save_metrics("16", METRICS)
+18:16:47 | [cell 18/19] DONE in 0.01s
+18:16:47 |     stdout | 18:16:47 | INFO | metrics saved -> metrics.json
+18:16:47 |     stdout | 18:16:47 | INFO | notebook 16 finished OK
+18:16:49 | wrote 16_autoencoders.html
+18:16:49 | === SUCCESS in 45.7s ===
