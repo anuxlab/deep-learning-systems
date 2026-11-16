@@ -1,0 +1,98 @@
+15:56:48 | === running 01_linear_algebra.ipynb ===
+15:56:48 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/01-linear-algebra
+15:56:49 | [cell 03/23] START  import sys
+15:56:52 | [cell 03/23] DONE in 3.02s
+15:56:52 |     stdout | 15:56:51 | INFO | seed set to 42
+15:56:52 |     stdout |           python: 3.12.16
+15:56:52 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+15:56:52 |     stdout |        cpu_count: 4
+15:56:52 |     stdout |           ram_gb: 15.6
+15:56:52 |     stdout |            numpy: 2.5.5
+15:56:52 |     stdout |            scipy: 1.18.1
+15:56:52 |     stdout |          sklearn: 1.9.1
+15:56:52 |     stdout |       matplotlib: 3.11.2
+15:56:52 |     stdout |            torch: 2.15.0+cpu
+15:56:52 |     stdout |   cuda_available: False
+15:56:52 |     stdout |   github_actions: True
+15:56:52 |     stdout |           run_id: 43901829031
+15:56:52 |     stdout |           commit: 91e223fc43e41a334729ca846bd3a2056f0611b5
+15:56:52 | [cell 05/23] START  X = np.arange(6).reshape(2, 3).astype(float)      # (2,3)
+15:56:52 | [cell 05/23] DONE in 0.01s
+15:56:52 |     stdout | X+b =
+15:56:52 |     stdout |  [[10. 21. 32.]
+15:56:52 |     stdout |  [13. 24. 35.]]
+15:56:52 |     stdout | X+col =
+15:56:52 |     stdout |  [[100. 101. 102.]
+15:56:52 |     stdout |  [203. 204. 205.]]
+15:56:52 |     stdout |   ✅ (2,3)+(3,) -> (2,3)
+15:56:52 |     stdout |   ✅ (3,1)+(1,4) -> (3,4)
+15:56:52 |     stdout | incompatible shapes raise: operands could not be broadcast together with shapes (2,3) (2,)
+15:56:52 | [cell 07/23] START  rng = np.random.default_rng(0)
+15:56:52 | [cell 07/23] DONE in 0.00s
+15:56:52 |     stdout |   ✅ matmul view 'row·col' matches A @ B
+15:56:52 |     stdout |   ✅ matmul view 'columns' matches A @ B
+15:56:52 |     stdout |   ✅ matmul view 'outer sum' matches A @ B
+15:56:52 |     stdout |   ✅ (AB)^T = B^T A^T
+15:56:52 | [cell 09/23] START  x = np.array([3., -4., 12.])
+15:56:52 | [cell 09/23] DONE in 0.00s
+15:56:52 |     stdout | L1, L2, Linf: 19.0 13.0 12.0
+15:56:52 |     stdout |   ✅ Cauchy–Schwarz inequality
+15:56:52 |     stdout |   ✅ triangle inequality
+15:56:52 |     stdout |   ✅ P is idempotent (P^2 = P)
+15:56:52 |     stdout |   ✅ P is symmetric
+15:56:52 |     stdout |   ✅ residual is orthogonal to the column space
+15:56:52 |     stdout |   ✅ projection == least-squares fit
+15:56:52 | [cell 11/23] START  def gram_schmidt(V):
+15:56:52 | [cell 11/23] DONE in 0.00s
+15:56:52 |     stdout |   ✅ Gram–Schmidt columns are orthonormal
+15:56:52 |     stdout |   ✅ matches numpy QR up to sign
+15:56:52 | [cell 13/23] START  base = rng.normal(size=(6, 2)); M = base @ rng.normal(size=(2, 5))     # 6x5 matrix of ran
+15:56:52 | [cell 13/23] DONE in 0.00s
+15:56:52 |     stdout | singular values: [4.532252 3.236644 0.       0.       0.      ]
+15:56:52 |     stdout |   ✅ rank = 2
+15:56:52 |     stdout |   ✅ rank–nullity: dim N = n - rank = 3
+15:56:52 |     stdout |   ✅ M x = 0 for all null-space basis vectors
+15:56:52 | [cell 15/23] START  A = np.array([[2.0, 1.0], [0.5, 1.5]])
+15:56:52 | [cell 15/23] DONE in 0.26s
+15:56:52 |     stdout | singular values: [2.55833637 0.97719754] | eigenvalues: [2.5+0.j 1. +0.j]
+15:56:52 |     stdout |   ✅ A v = λ v for every eigenpair
+15:56:52 |     stdout |   ✅ A = U Σ V^T
+15:56:52 |     stdout |   ✅ |det A| = product of singular values
+15:56:52 |     stdout | 15:56:52 | INFO | figure saved -> figures/svd_geometry.png
+15:56:52 |     [figure rendered]
+15:56:52 | [cell 17/23] START  from sklearn.datasets import load_digits
+15:56:53 | [cell 17/23] DONE in 0.55s
+15:56:53 |     stdout |   ✅ k=1: ||A-A_k||_F^2 = sum of discarded σ^2
+15:56:53 |     stdout |   ✅ k=1: spectral error = σ_(k+1)
+15:56:53 |     stdout |   ✅ k=2: ||A-A_k||_F^2 = sum of discarded σ^2
+15:56:53 |     stdout |   ✅ k=2: spectral error = σ_(k+1)
+15:56:53 |     stdout |   ✅ k=4: ||A-A_k||_F^2 = sum of discarded σ^2
+15:56:53 |     stdout |   ✅ k=4: spectral error = σ_(k+1)
+15:56:53 |     stdout |   ✅ k=8: ||A-A_k||_F^2 = sum of discarded σ^2
+15:56:53 |     stdout |   ✅ k=8: spectral error = σ_(k+1)
+15:56:53 |     stdout |   ✅ k=16: ||A-A_k||_F^2 = sum of discarded σ^2
+15:56:53 |     stdout |   ✅ k=16: spectral error = σ_(k+1)
+15:56:53 |     stdout | 15:56:53 | INFO | figure saved -> figures/lowrank_images.png
+15:56:53 |     [figure rendered]
+15:56:53 |     stdout | 15:56:53 | INFO | figure saved -> figures/singular_spectrum.png
+15:56:53 |     [figure rendered]
+15:56:53 | [cell 19/23] START  X = rng.normal(size=(50, 4)); G = X.T @ X
+15:56:53 | [cell 19/23] DONE in 0.00s
+15:56:53 |     stdout |   ✅ Gram matrix X^T X is PSD
+15:56:53 |     stdout |   ✅ Cholesky: G = L L^T
+15:56:53 |     stdout | eigs of Bad: [-1.  3.]
+15:56:53 |     stdout |   Cholesky correctly refuses an indefinite matrix
+15:56:53 | [cell 21/23] START  Bt = rng.normal(size=(8, 4, 5)); Ct = rng.normal(size=(8, 5, 3))
+15:56:53 | [cell 21/23] DONE in 0.10s
+15:56:53 |     stdout |   ✅ einsum 'bij,bjk->bik' == looped matmul
+15:56:53 |     stdout |   ✅ einsum 'ii' = trace
+15:56:53 |     stdout |   ✅ attention-style scores have shape (B, Tq, Tk)
+15:56:53 |     stdout | C-order strides: (32, 8) | transpose strides: (8, 32) | shares memory: True
+15:56:53 |     stdout |   ✅ transpose is a non-contiguous view (no copy)
+15:56:53 |     stdout | sum over contiguous axis: 3.3 ms ; strided axis: 2.3 ms
+15:56:53 | [cell 22/23] START  save_metrics("01", METRICS)
+15:56:53 | [cell 22/23] DONE in 0.00s
+15:56:53 |     stdout | 15:56:53 | INFO | metrics saved -> metrics.json
+15:56:53 |     stdout | 15:56:53 | INFO | notebook 01 finished OK
+15:56:54 | wrote 01_linear_algebra.html
+15:56:54 | === SUCCESS in 5.9s ===
