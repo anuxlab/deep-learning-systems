@@ -1,0 +1,50 @@
+{
+  "environment": {
+    "python": "3.12.16",
+    "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+    "cpu_count": 4,
+    "ram_gb": 15.6,
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "torch": "2.15.0+cpu",
+    "cuda_available": false,
+    "github_actions": true,
+    "run_id": "43926902332",
+    "commit": "30206410b37c093a0d326d94f81e5fd7c94a76ce"
+  },
+  "timings_s": {
+    "ddpm_training": 15.957,
+    "sampling": 0.618,
+    "cfg_sampling": 0.459
+  },
+  "ddpm_final_loss": 0.3091685581207275,
+  "sliced_w2": {
+    "noise": 0.5235666632652283,
+    "ddpm": 0.08431416004896164,
+    "ddim_5": 0.33265233039855957,
+    "ddim_10": 0.18581268191337585,
+    "ddim_25": 0.12892769277095795,
+    "ddim_50": 0.11508306860923767
+  },
+  "cfg": {
+    "w=0": {
+      "class_fraction": 0.9993333220481873,
+      "spread": 0.9978466033935547
+    },
+    "w=1": {
+      "class_fraction": 1.0,
+      "spread": 0.8594166040420532
+    },
+    "w=3": {
+      "class_fraction": 1.0,
+      "spread": 0.7103278636932373
+    },
+    "w=8": {
+      "class_fraction": 1.0,
+      "spread": 0.8532805442810059
+    }
+  },
+  "notebook": "20"
+}

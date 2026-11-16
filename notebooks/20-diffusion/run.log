@@ -1,0 +1,79 @@
+18:16:24 | === running 20_diffusion.ipynb ===
+18:16:24 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/20-diffusion
+18:16:25 | [cell 03/17] START  import sys
+18:16:27 | [cell 03/17] DONE in 2.54s
+18:16:27 |     stdout | 18:16:26 | INFO | seed set to 42
+18:16:27 |     stdout |           python: 3.12.16
+18:16:27 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:16:27 |     stdout |        cpu_count: 4
+18:16:27 |     stdout |           ram_gb: 15.6
+18:16:27 |     stdout |            numpy: 2.5.5
+18:16:27 |     stdout |            scipy: 1.18.1
+18:16:27 |     stdout |          sklearn: 1.9.1
+18:16:27 |     stdout |       matplotlib: 3.11.2
+18:16:27 |     stdout |            torch: 2.15.0+cpu
+18:16:27 |     stdout |   cuda_available: False
+18:16:27 |     stdout |   github_actions: True
+18:16:27 |     stdout |           run_id: 43926902332
+18:16:27 |     stdout |           commit: 30206410b37c093a0d326d94f81e5fd7c94a76ce
+18:16:27 | [cell 05/17] START  T = 100; betas = torch.linspace(1e-4, .1, T); alphas = 1 - betas; abar = torch.cumprod(alp
+18:16:28 | [cell 05/17] DONE in 0.61s
+18:16:28 |     stdout | t= 10: empirical mean 1.4650 var 0.0455   |  theory mean 1.4655 var 0.0455
+18:16:28 |     stdout |   ✅ t=10: iterated chain matches the closed form q(x_t|x_0)
+18:16:28 |     stdout | t= 50: empirical mean 0.7990 var 0.7142   |  theory mean 0.7979 var 0.7170
+18:16:28 |     stdout |   ✅ t=50: iterated chain matches the closed form q(x_t|x_0)
+18:16:28 |     stdout | t=100: empirical mean 0.1113 var 0.9940   |  theory mean 0.1124 var 0.9944
+18:16:28 |     stdout |   ✅ t=100: iterated chain matches the closed form q(x_t|x_0)
+18:16:28 |     stdout | 18:16:28 | INFO | figure saved -> figures/snr.png
+18:16:28 |     [figure rendered]
+18:16:28 |     stdout |   ✅ by t=T almost no signal remains: x_T ≈ N(0, I)  (ᾱ_T = 0.0056)
+18:16:28 | [cell 07/17] START  t = 40; a_t, ab_t, ab_p, b_t = alphas[t].item(), abar[t].item(), abar[t - 1].item(), betas
+18:16:28 | [cell 07/17] DONE in 0.07s
+18:16:28 |     stdout |   ✅ posterior mean in (x_t, x_0) form == ε-prediction form
+18:16:28 |     stdout | posterior mean: grid 0.30261 vs formula 0.30261;  variance: grid 0.039175 vs formula 0.039175
+18:16:28 |     stdout |   ✅ closed-form posterior mean/variance match brute-force Bayes
+18:16:28 | [cell 09/17] START  from sklearn.datasets import make_moons
+18:16:44 | [cell 09/17] DONE in 16.43s
+18:16:44 |     stdout | step    0  eps-MSE 0.9968
+18:16:44 |     stdout | step  700  eps-MSE 0.3253
+18:16:44 |     stdout | step 1400  eps-MSE 0.3424
+18:16:44 |     stdout | step 2100  eps-MSE 0.3751
+18:16:44 |     stdout | step 2800  eps-MSE 0.3198
+18:16:44 |     stdout | step 3500  eps-MSE 0.3314
+18:16:44 |     stdout | step 4200  eps-MSE 0.3286
+18:16:44 |     stdout | step 4900  eps-MSE 0.2897
+18:16:44 |     stdout | step 5600  eps-MSE 0.3024
+18:16:44 |     stdout | 18:16:44 | INFO | ddpm_training took 15.96s
+18:16:44 |     stdout | 18:16:44 | INFO | figure saved -> figures/ddpm_loss.png
+18:16:44 |     [figure rendered]
+18:16:44 |     stdout |   ✅ noise-prediction loss decreases
+18:16:44 | [cell 11/17] START  @torch.no_grad()
+18:16:46 | [cell 11/17] DONE in 1.26s
+18:16:46 |     stdout | 18:16:45 | INFO | sampling took 0.62s
+18:16:46 |     stdout | sliced-W2 to held-out data:  pure noise 0.524 | DDPM(100 steps) 0.084 | DDIM 5st:0.333 10st:0.186 25st:0.129 50st:0.115
+18:16:46 |     stdout | 18:16:45 | INFO | figure saved -> figures/diffusion_samples.png
+18:16:46 |     [figure rendered]
+18:16:46 |     stdout |   ✅ DDPM samples are far closer to the data than noise
+18:16:46 |     stdout |   ✅ DDIM with only 25 steps is also much closer to the data than noise
+18:16:46 |     stdout |   ✅ more DDIM steps -> better samples (quality/compute trade-off)
+18:16:46 | [cell 13/17] START  @torch.no_grad()
+18:16:46 | [cell 13/17] DONE in 0.91s
+18:16:46 |     stdout | 18:16:46 | INFO | figure saved -> figures/denoising_trajectory.png
+18:16:46 |     [figure rendered]
+18:16:46 | [cell 15/17] START  P0, P1 = Xd[Cd == 0][:2000], Xd[Cd == 1][:2000]
+18:16:47 | [cell 15/17] DONE in 0.96s
+18:16:47 |     stdout | w=0: fraction in class-0 moon 0.999   spread (mean std) 0.998
+18:16:47 |     stdout | w=1: fraction in class-0 moon 1.000   spread (mean std) 0.859
+18:16:47 |     stdout | w=3: fraction in class-0 moon 1.000   spread (mean std) 0.710
+18:16:47 |     stdout | w=8: fraction in class-0 moon 1.000   spread (mean std) 0.853
+18:16:47 |     stdout | 18:16:47 | INFO | cfg_sampling took 0.46s
+18:16:47 |     stdout | 18:16:47 | INFO | figure saved -> figures/classifier_free_guidance.png
+18:16:47 |     [figure rendered]
+18:16:47 |     stdout |   ✅ guided samples fall in the requested class
+18:16:47 |     stdout |   ✅ even unguided conditional sampling prefers the requested class
+18:16:47 | [cell 16/17] START  save_metrics("20", METRICS)
+18:16:47 | [cell 16/17] DONE in 0.00s
+18:16:47 |     stdout | 18:16:47 | INFO | metrics saved -> metrics.json
+18:16:47 |     stdout | 18:16:47 | INFO | notebook 20 finished OK
+18:16:49 | wrote 20_diffusion.html
+18:16:49 | === SUCCESS in 25.3s ===
