@@ -1,0 +1,132 @@
+18:17:09 | === running 24_evaluation_robustness_efficiency.ipynb ===
+18:17:09 | python 3.12.16 | cwd for kernel: /home/runner/work/deep-learning-systems/deep-learning-systems/notebooks/24-evaluation-robustness-efficiency
+18:17:10 | [cell 03/21] START  import sys
+18:17:12 | [cell 03/21] DONE in 2.34s
+18:17:12 |     stdout | 18:17:11 | INFO | seed set to 42
+18:17:12 |     stdout |           python: 3.12.16
+18:17:12 |     stdout |         platform: Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+18:17:12 |     stdout |        cpu_count: 4
+18:17:12 |     stdout |           ram_gb: 15.6
+18:17:12 |     stdout |            numpy: 2.5.5
+18:17:12 |     stdout |            scipy: 1.18.1
+18:17:12 |     stdout |          sklearn: 1.9.1
+18:17:12 |     stdout |       matplotlib: 3.11.2
+18:17:12 |     stdout |            torch: 2.15.0+cpu
+18:17:12 |     stdout |   cuda_available: False
+18:17:12 |     stdout |   github_actions: True
+18:17:12 |     stdout |           run_id: 43927034105
+18:17:12 |     stdout |           commit: acc07d99b904294ae92eb2f8b2a6d252095f266e
+18:17:12 | [cell 05/21] START  from sklearn.datasets import make_classification
+18:17:13 | [cell 05/21] DONE in 0.46s
+18:17:13 |     stdout | positives in test set: 1.430%
+18:17:13 |     stdout | confusion  TP=0 FP=1 FN=143 TN=9856
+18:17:13 |     stdout | accuracy 0.9856 | precision 0.000 recall 0.000 F1 0.000 MCC -0.001 | ROC-AUC 0.690 PR-AUC 0.119
+18:17:13 |     stdout |   ✅ precision / recall / F1 match sklearn
+18:17:13 |     stdout |   ✅ MCC matches sklearn
+18:17:13 |     stdout |   ✅ rank-based ROC-AUC matches sklearn
+18:17:13 |     stdout |   ✅ average precision matches sklearn
+18:17:13 |     stdout | 
+18:17:13 |     stdout | accuracy paradox: predicting 'negative' for everyone gets accuracy 0.9857, F1 0.00, recall 0 !
+18:17:13 |     stdout |   ✅ a useless constant classifier has >98% accuracy: never report accuracy alone on imbalanced data
+18:17:13 |     stdout | 18:17:13 | INFO | figure saved -> figures/roc_pr_curves.png
+18:17:13 |     [figure rendered]
+18:17:13 | [cell 07/21] START  from sklearn.dummy import DummyClassifier
+18:17:22 | [cell 07/21] DONE in 9.05s
+18:17:22 |     stdout | majority baseline    PR-AUC 0.014  95% CI [0.012, 0.017]
+18:17:22 |     stdout | logistic regression  PR-AUC 0.119  95% CI [0.082, 0.177]
+18:17:22 |     stdout | random forest        PR-AUC 0.336  95% CI [0.251, 0.427]
+18:17:22 |     stdout | paired difference (RF − LR) in PR-AUC: +0.217  95% CI [+0.160, +0.273]  → significant
+18:17:22 |     stdout |   ✅ model beats the majority baseline by a wide margin
+18:17:22 |     stdout |   ✅ with only ~100 positives the CI is wide — report it
+18:17:22 |     stdout | 18:17:22 | INFO | figure saved -> figures/paired_bootstrap.png
+18:17:22 |     [figure rendered]
+18:17:22 | [cell 09/21] START  from sklearn.datasets import load_digits
+18:17:26 | [cell 09/21] DONE in 4.26s
+18:17:26 |     stdout | fitted temperature T = 2.461
+18:17:26 |     stdout | raw                  acc 0.957  mean confidence 0.981  ECE 0.0301  NLL 0.2285
+18:17:26 |     stdout | temperature-scaled   acc 0.957  mean confidence 0.940  ECE 0.0169  NLL 0.1567
+18:17:26 |     stdout | 18:17:26 | INFO | figure saved -> figures/reliability_diagram.png
+18:17:26 |     [figure rendered]
+18:17:26 |     stdout |   ✅ T > 1: the over-trained network was over-confident
+18:17:26 |     stdout |   ✅ temperature scaling lowers test NLL
+18:17:26 |     stdout |   ✅ …and lowers ECE
+18:17:26 |     stdout |   ✅ …without changing accuracy (arg-max is invariant to a global scale)
+18:17:26 | [cell 11/21] START  x = Xd[tst][:1]; cls = int(yd[tst][0]); f = lambda z: F.softmax(mlp(z), 1)[:, cls]; base =
+18:17:27 | [cell 11/21] DONE in 0.85s
+18:17:27 |     stdout | sum of IG attributions 0.05480   f(x)-f(baseline) 0.05298
+18:17:27 |     stdout |   ✅ completeness: IG attributions sum to f(x) − f(baseline)
+18:17:27 |     stdout | correlation between trained-model saliency and random-model saliency: -0.07
+18:17:27 |     stdout |   ✅ sanity check: saliency depends on the learned weights (not just the input)
+18:17:27 |     stdout | 18:17:27 | INFO | figure saved -> figures/attributions.png
+18:17:27 |     [figure rendered]
+18:17:27 |     stdout |   ✅ corner pixels (almost always blank in digits) are unimportant
+18:17:27 | [cell 13/21] START  trn2 = ix[:1200]; tst2 = ix[1200:]
+18:17:30 | [cell 13/21] DONE in 2.76s
+18:17:30 |     stdout | 18:17:29 | INFO | adv_training took 2.49s
+18:17:30 |     stdout | standard                         ε=0:0.98 ε=0.05:0.83 ε=0.1:0.43 ε=0.15:0.16 ε=0.2:0.07 ε=0.3:0.02
+18:17:30 |     stdout | adversarially trained (ε=0.15)   ε=0:0.99 ε=0.05:0.96 ε=0.1:0.90 ε=0.15:0.79 ε=0.2:0.62 ε=0.3:0.18
+18:17:30 |     stdout | 18:17:30 | INFO | figure saved -> figures/fgsm_robustness.png
+18:17:30 |     [figure rendered]
+18:17:30 |     stdout |   ✅ standard model is accurate on clean data
+18:17:30 |     stdout |   ✅ a small ε=0.15 perturbation destroys the standard model's accuracy
+18:17:30 |     stdout |   ✅ adversarial training substantially improves robustness at the training ε
+18:17:30 |     stdout | clean accuracy: standard 0.980 vs adversarially trained 0.992.  NOTE: the robustness–accuracy trade-off is often reported on large natural-image datasets; on tiny, easy digits the perturbations act as a regulariser and no clean-accuracy cost is visible. Do not generalise this to harder tasks.
+18:17:30 |     stdout |   ✅ no large clean-accuracy penalty on this easy dataset
+18:17:30 |     stdout | Gaussian-noise accuracy [standard, adv-trained]: {0: [0.98, 0.99], 0.1: [0.97, 0.99], 0.2: [0.92, 0.98], 0.3: [0.81, 0.93], 0.5: [0.49, 0.71]}
+18:17:30 | [cell 15/21] START  import copy, time, io
+18:17:31 | [cell 15/21] DONE in 1.31s
+18:17:31 |     stdout | fp32 weights 197.0 KiB -> int8 49.3 KiB (×4.0 smaller) | accuracy 0.980 -> 0.980
+18:17:31 |     stdout |   ✅ int8 weights are ~4× smaller
+18:17:31 |     stdout |   ✅ int8 quantisation costs < 2 points of accuracy
+18:17:31 |     stdout | torch dynamic int8 quantisation accuracy: 0.98
+18:17:31 |     stdout | 18:17:31 | INFO | figure saved -> figures/pruning.png
+18:17:31 |     [figure rendered]
+18:17:31 |     stdout | {0: np.float64(0.98), 0.5: np.float64(0.978), 0.8: np.float64(0.886), 0.9: np.float64(0.601), 0.95: np.float64(0.466), 0.98: np.float64(0.147), 0.99: np.float64(0.109)}
+18:17:31 |     stdout | (one-shot pruning WITHOUT fine-tuning: accuracy holds to ~50% sparsity then degrades; iterative prune-and-fine-tune reaches much higher sparsity — see exercise.)
+18:17:31 |     stdout |   ✅ 50% of the weights can be removed with < 1 point of accuracy loss
+18:17:31 |     stdout |   ✅ extreme sparsity destroys the model unless it is fine-tuned
+18:17:31 |     stdout | bf16 median relative rounding error of weights: 0.0014 (~2^-8 = 0.0039)
+18:17:31 |     stdout |   ✅ bf16 keeps ≈ 3 significant digits
+18:17:31 |     stdout | bf16 inference accuracy 0.980 vs fp32 0.980
+18:17:31 |     stdout |   ✅ bf16 inference matches fp32 accuracy
+18:17:31 | [cell 17/21] START  rng = np.random.default_rng(1); n = 20000; grp = rng.random(n) < .4                       
+18:17:32 | [cell 17/21] DONE in 0.53s
+18:17:32 |     stdout | single threshold 0.5 | overall acc 0.802
+18:17:32 |     stdout |   group a: positive-rate 0.421  TPR 0.727  FPR 0.167  acc 0.785
+18:17:32 |     stdout |   group b: positive-rate 0.204  TPR 0.565  FPR 0.094  acc 0.827
+18:17:32 |     stdout | demographic-parity gap 0.218   equal-opportunity gap 0.162
+18:17:32 |     stdout |   ✅ demographic parity is violated (different base rates and feature shift)
+18:17:32 |     stdout | group-b threshold 0.34 equalises opportunity: TPR gap 0.001 (was 0.162); overall accuracy 0.802 -> 0.789; FPR gap 0.018; DP gap 0.110
+18:17:32 |     stdout |   ✅ group-specific threshold reduces the equal-opportunity gap
+18:17:32 |     stdout |   ✅ fairness criteria trade off against each other / accuracy (no free lunch)
+18:17:32 |     stdout | 18:17:31 | INFO | figure saved -> figures/fairness_tradeoff.png
+18:17:32 |     [figure rendered]
+18:17:32 | [cell 19/21] START  card = f'''# Model card — digits MLP (notebook 24)
+18:17:32 | [cell 19/21] DONE in 0.01s
+18:17:32 |     stdout | # Model card — digits MLP (notebook 24)
+18:17:32 |     stdout | 
+18:17:32 |     stdout | **Model:** 64-256-128-10 MLP, 50,826 parameters, trained with Adam for 60 epochs on 1,200 8×8 digit images (scikit-learn `load_digits`).
+18:17:32 |     stdout | **Intended use:** teaching/demo of evaluation practice. **Not** for any real decision-making.
+18:17:32 |     stdout | 
+18:17:32 |     stdout | ## Metrics (held-out 597 images)
+18:17:32 |     stdout | | metric | value |
+18:17:32 |     stdout | |---|---|
+18:17:32 |     stdout | | clean accuracy (fp32) | 0.980 |
+18:17:32 |     stdout | | int8-quantised accuracy | 0.980 |
+18:17:32 |     stdout | | accuracy under FGSM ε=0.15 (standard) | 0.157 |
+18:17:32 |     stdout | | accuracy under FGSM ε=0.15 (adversarially trained variant) | 0.787 |
+18:17:32 |     stdout | | expected calibration error (raw → temperature-scaled, other model) | 0.030 → 0.017 |
+18:17:32 |     stdout | 
+18:17:32 |     stdout | ## Limitations & caveats
+18:17:32 |     stdout | - Tiny, clean, low-resolution dataset; results do not transfer to natural images or distribution shift.
+18:17:32 |     stdout | - Brittle to small adversarial perturbations unless adversarially trained (which costs clean accuracy).
+18:17:32 |     stdout | - Single seed; confidence intervals not reported for these figures (see section 2 for how to compute them).
+18:17:32 |     stdout | - Fairness metrics were illustrated on a *synthetic* two-group problem and say nothing about this model.
+18:17:32 |     stdout | 
+18:17:32 |     stdout |   ✅ model card written to model_card.md
+18:17:32 | [cell 20/21] START  save_metrics("24", METRICS)
+18:17:32 | [cell 20/21] DONE in 0.00s
+18:17:32 |     stdout | 18:17:32 | INFO | metrics saved -> metrics.json
+18:17:32 |     stdout | 18:17:32 | INFO | notebook 24 finished OK
+18:17:34 | wrote 24_evaluation_robustness_efficiency.html
+18:17:34 | === SUCCESS in 24.6s ===
